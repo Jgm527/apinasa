@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#132e2a"><title>DONKI | NASA Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body><div class="page-shell">
+    <div th:replace="~{fragments/nav :: nav('donki')}"></div>
+    <main>
+        <section class="page-heading compact-heading">
+            <div><p class="eyebrow"><span>03</span> METEOROLOGÍA ESPACIAL</p><h1>El Sol<br><em>en actividad.</em></h1>
+                <p class="lede">Consulta fulguraciones solares registradas en DONKI y explora sus campos científicos.</p></div>
+            <form class="filter-panel" method="get" th:action="@{/donki}">
+                <label>Intervalo de observación <span class="label-hint">máximo 30 días</span></label>
+                <div class="date-pair"><input aria-label="Fecha inicial" name="start" type="date" th:value="${start}" th:attr="max=${today}" required><span>hasta</span><input aria-label="Fecha final" name="end" type="date" th:value="${end}" th:attr="max=${today}" required></div>
+                <button class="button button-dark full-button" type="submit">Consultar fulguraciones <span aria-hidden="true">↗</span></button>
+            </form>
+        </section>
+        <div class="notice notice-error" role="alert" th:if="${error}" th:text="${error}"></div>
+        <section class="event-results" th:if="${flares}">
+            <div class="section-topline"><div><p class="eyebrow">SOLAR FLARES · FLR</p><h2 th:text="|${flares.size()} fulguraciones|">Fulguraciones</h2></div><span class="data-source">api.nasa.gov · REQUIERE CLAVE</span></div>
+            <div class="event-list"><article class="event-row" th:each="flare : ${flares}">
+                <div class="event-index" th:text="${flareStat.count < 10 ? '0' + flareStat.count : flareStat.count}">01</div>
+                <div class="event-main"><h3 th:text="${flare.classType != null ? flare.classType : 'Fulguración solar'}">Clase de fulguración</h3>
+                    <div class="event-meta"><span th:text="${flare.beginTime}">Hora de inicio</span><span th:if="${flare.peakTime}" th:text="|Pico: ${flare.peakTime}|">Pico</span><span th:if="${flare.sourceLocation}" th:text="${flare.sourceLocation}">Ubicación</span></div>
+                </div>
+                <div class="event-geometry"><small>REGIÓN ACTIVA</small><span th:text="${flare.activeRegionNum != null ? flare.activeRegionNum : 'Sin dato'}">—</span></div>
+            </article><div class="empty-row" th:if="${flares.isEmpty()}">No hay fulguraciones en ese intervalo.</div></div>
+        </section>
+        <section class="api-workbench" aria-labelledby="donki-api-title">
+            <div class="workbench-heading"><div><p class="eyebrow">DESPIECE DE LA PETICIÓN</p><h2 id="donki-api-title">De la URL al JSON</h2></div><span class="data-source">DONKI FLR · api.nasa.gov</span></div>
+            <div class="api-columns">
+                <article class="code-panel request-panel">
+                    <div class="code-panel-heading"><h3>1. Solicitud HTTP</h3><span class="api-method">GET</span></div>
+                    <dl class="url-parts">
+                        <div><dt>Host</dt><dd>https://api.nasa.gov</dd></div><div><dt>Ruta</dt><dd>/DONKI/FLR</dd></div>
+                        <div><dt>startDate</dt><dd th:text="${start}">2026-10-01</dd></div><div><dt>endDate</dt><dd th:text="${end}">2026-10-02</dd></div>
+                        <div><dt>api_key</dt><dd>NASA_API_KEY (redactada)</dd></div>
+                    </dl>
+                    <pre><code th:if="${apiCall}" th:text="|${apiCall.method} ${apiCall.requestUrl}|">GET https://api.nasa.gov/DONKI/FLR</code><code th:unless="${apiCall}">La petición no se ha enviado: revisa las fechas.</code></pre>
+                    <p>DONKI usa `startDate` y `endDate` en camelCase. La clave real solo se añade en el servidor y se oculta en el panel.</p>
+                </article>
+                <article class="code-panel response-panel">
+                    <div class="code-panel-heading"><h3>2. Respuesta del servidor</h3><span class="response-label">INTERCAMBIO DE ESTA CARGA</span></div>
+                    <pre class="live-response-preview" th:if="${apiCall}"><code th:text="${#strings.abbreviate(apiCall.responseBody, 1000)}">JSON real de DONKI</code></pre>
+                    <details class="live-response" th:if="${apiCall}"><summary><span>Ver cuerpo completo recibido</span><span class="response-status" th:text="|${apiCall.statusLabel()} · ${apiCall.contentType()}|">HTTP 200</span></summary>
+                        <p class="live-api-error" th:if="${apiCall.error}" th:text="${apiCall.error}">Error de API</p><pre><code th:text="${apiCall.responseBody}">Respuesta bruta</code><span th:if="${#strings.isEmpty(apiCall.responseBody)}">El servidor no devolvió cuerpo HTTP.</span></pre>
+                    </details>
+                    <p class="no-live-response" th:unless="${apiCall}">No hubo petición: corrige las fechas antes de consultar.</p>
+                    <details class="schema-example"><summary>Campos de una fulguración FLR</summary><pre><code>{
+  "flrID": "2026-10-02T...-FLR-001",
+  "beginTime": "2026-10-02T...",
+  "peakTime": "2026-10-02T...",
+  "classType": "M1.2",
+  "sourceLocation": "N15E..",
+  "activeRegionNum": 12345,
+    "instruments": [{ "id": 1, "displayName": "GOES-P: ..." }]
+}</code></pre></details>
+                </article>
+            </div>
+        </section>
+        <section class="learning-strip"><div class="learning-number">C</div><div><h3>Una colección de eventos</h3><p>FLR devuelve una lista JSON: cada elemento es una fulguración y sus campos pueden ser nulos. `classType` expresa la clase observada; estos datos no son una predicción oficial de impacto terrestre.</p></div><a href="https://api.nasa.gov/#donki" target="_blank" rel="noreferrer">Catálogo api.nasa.gov ↗</a></section>
+        <p class="legacy-note">DONKI ofrece productos de investigación y notificación de meteorología espacial. No es un servicio de emergencia ni sustituye a las fuentes oficiales de predicción.</p>
+    </main>
+    <footer><span>NASA LAB / PRÁCTICA MVC</span><span>Solo peticiones API a api.nasa.gov</span></footer>
+</div></body></html>

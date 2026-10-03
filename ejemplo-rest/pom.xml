@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    pom.xml = el "menú de dependencias" del proyecto.
+    Maven lo lee para saber qué librerías descargar y cómo empaquetar la aplicación.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        El "parent" hereda las versiones compatibles de todas las librerías de Spring Boot.
+        Misma versión que el proyecto ApiNasa/apinasa.
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>4.1.1</version>
+        <relativePath/> <!-- busca el parent en el repositorio de Maven -->
+    </parent>
+
+    <groupId>com.josejavi</groupId>
+    <artifactId>ejemplo-rest</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>ejemplo-rest</name>
+    <description>Ejemplo mínimo de @RestController con Spring Boot</description>
+
+    <properties>
+        <!-- Versión de Java. Misma que ApiNasa. -->
+        <java.version>25</java.version>
+    </properties>
+
+    <dependencies>
+        <!--
+            Starter web: aporta @RestController, @GetMapping, RestClient (cliente HTTP)
+            y Jackson (convierte objetos Java <-> JSON automáticamente).
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webmvc</artifactId>
+        </dependency>
+
+        <!--
+            Starter de tests: JUnit 5, MockMvc, etc.
+            <scope>test</scope> = solo se usa al ejecutar "mvn test", NO va en el jar final.
+        -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Permite "mvn spring-boot:run" y empaquetar un .jar ejecutable -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

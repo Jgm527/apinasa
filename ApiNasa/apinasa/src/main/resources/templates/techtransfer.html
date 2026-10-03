@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#132e2a"><title>TechTransfer | NASA Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body><div class="page-shell">
+    <div th:replace="~{fragments/nav :: nav('techtransfer')}"></div>
+    <main>
+        <section class="page-heading compact-heading">
+            <div><p class="eyebrow"><span>01</span> TRANSFERENCIA TECNOLÓGICA</p><h1>Buscar<br><em>innovación NASA.</em></h1>
+                <p class="lede">Explora patentes y tecnologías desarrolladas por NASA mediante una búsqueda JSON.</p></div>
+            <form class="filter-panel search-panel" method="get" th:action="@{/techtransfer}">
+                <label for="q">Término de patente</label>
+                <div class="search-control"><input id="q" name="q" type="search" maxlength="80" th:value="${q}" placeholder="Ej. aircraft" required><button class="button button-dark" type="submit">Buscar <span aria-hidden="true">↗</span></button></div>
+                <small>La clave del catálogo se adjunta desde el servidor y no se muestra.</small>
+            </form>
+        </section>
+        <div class="notice notice-error" role="alert" th:if="${error}" th:text="${error}"></div>
+        <section class="api-workbench" aria-labelledby="techtransfer-api-title">
+            <div class="workbench-heading"><div><p class="eyebrow">DESPIECE DE LA PETICIÓN</p><h2 id="techtransfer-api-title">De la URL al JSON</h2></div><span class="data-source">TECHTRANSFER · api.nasa.gov</span></div>
+            <div class="api-columns">
+                <article class="code-panel request-panel">
+                    <div class="code-panel-heading"><h3>1. Solicitud HTTP</h3><span class="api-method">GET</span></div>
+                    <dl class="url-parts"><div><dt>Host</dt><dd>https://api.nasa.gov</dd></div><div><dt>Ruta</dt><dd>/techtransfer/patent/</dd></div><div><dt>Término</dt><dd th:text="${q}">aircraft</dd></div><div><dt>api_key</dt><dd>NASA_API_KEY (redactada)</dd></div></dl>
+                    <pre><code th:if="${apiCall}" th:text="|${apiCall.method} ${apiCall.requestUrl}|">GET https://api.nasa.gov/techtransfer/patent/?aircraft&amp;api_key=NASA_API_KEY</code><code th:unless="${apiCall}">La petición no se ha enviado: introduce un término válido.</code></pre>
+                    <p>El término aparece como un parámetro de búsqueda sin valor, igual que en el ejemplo oficial del catálogo. Hay rutas separadas para patentes, software y spinoffs.</p>
+                </article>
+                <article class="code-panel response-panel">
+                    <div class="code-panel-heading"><h3>2. Respuesta del servidor</h3><span class="response-label">INTERCAMBIO DE ESTA CARGA</span></div>
+                    <pre class="live-response-preview" th:if="${apiCall}"><code th:text="${#strings.abbreviate(apiCall.responseBody, 1000)}">JSON real de TechTransfer</code></pre>
+                    <details class="live-response" th:if="${apiCall}"><summary><span>Ver cuerpo completo recibido</span><span class="response-status" th:text="|${apiCall.statusLabel()} · ${apiCall.contentType()}|">HTTP 200</span></summary>
+                        <p class="live-api-error" th:if="${apiCall.error}" th:text="${apiCall.error}">Error de API</p><pre><code th:text="${apiCall.responseBody}">Respuesta bruta</code><span th:if="${#strings.isEmpty(apiCall.responseBody)}">El servidor no devolvió cuerpo HTTP.</span></pre>
+                    </details>
+                    <p class="no-live-response" th:unless="${apiCall}">Todavía no se envió la búsqueda a NASA.</p>
+                </article>
+            </div>
+        </section>
+        <section class="learning-strip"><div class="learning-number">A</div><div><h3>El JSON también puede tener una forma propia del servicio</h3><p>Lee el cuerpo real para descubrir sus claves y colecciones antes de diseñar DTOs. En esta demo usamos un tipo flexible para inspeccionar el contrato que entrega TechTransfer.</p></div><a href="https://api.nasa.gov/#techtransfer" target="_blank" rel="noreferrer">Catálogo api.nasa.gov ↗</a></section>
+    </main>
+    <footer><span>NASA LAB / PRÁCTICA MVC</span><span>Solo peticiones API a api.nasa.gov</span></footer>
+</div></body></html>

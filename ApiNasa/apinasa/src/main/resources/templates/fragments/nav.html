@@ -1,0 +1,13 @@
+<nav class="site-nav" th:fragment="nav(active)" aria-label="Demostraciones NASA">
+    <a class="brand" th:href="@{/techtransfer}" aria-label="NASA Lab, inicio">
+        <span class="brand-mark">N</span>
+        <span>NASA <b>LAB</b></span>
+    </a>
+    <div class="nav-links">
+        <a th:href="@{/techtransfer}" th:classappend="${active == 'techtransfer'} ? 'is-active' : ''">Tecnología</a>
+        <a th:href="@{/asteroids}" th:classappend="${active == 'asteroids'} ? 'is-active' : ''">Asteroides</a>
+        <a th:href="@{/donki}" th:classappend="${active == 'donki'} ? 'is-active' : ''">Meteorología espacial</a>
+        <a th:href="@{/epic}" th:classappend="${active == 'epic'} ? 'is-active' : ''">EPIC / Tierra</a>
+    </div>
+    <span class="nav-status"><i></i> DATOS PÚBLICOS</span>
+</nav>

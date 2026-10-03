@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+    Plantilla Thymeleaf: HTML normal + atributos "th:".
+    Spring Boot la busca aquí: src/main/resources/templates/
+    El navegador recibe el HTML ya renderizado (los th: se resuelven en el servidor).
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>EPIC - Ejemplo MVC</title>
+    <style>
+        /* CSS mínimo, dentro de la propia página para no añadir archivos */
+        body { font-family: system-ui, sans-serif; margin: 2rem; }
+        table { border-collapse: collapse; width: 100%; }
+        th, td { border: 1px solid #ccc; padding: .5rem; text-align: left; }
+        code { background: #f4f4f4; padding: .1rem .3rem; word-break: break-all; }
+    </style>
+</head>
+<body>
+    <h1>Imágenes EPIC de la Tierra</h1>
+
+    <!-- th:text sustituye el contenido del elemento por el valor de la expresión -->
+    <p>
+        Petición enviada por el backend:
+        <code th:text="${requestUrl}">URL de la petición</code>
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Identificador</th>
+                <th>Centro (lat, lon)</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!--
+                th:each recorre la lista "images" que el controlador
+                puso en el Model. Cada elemento se llama "imagen".
+                El contenido entre las etiquetas es solo texto de ejemplo:
+                Thymeleaf lo sustituye al renderizar.
+            -->
+            <tr th:each="imagen : ${images}">
+                <td th:text="${imagen.date}">fecha</td>
+                <td th:text="${imagen.identifier}">identificador</td>
+                <!-- Acceso a un objeto anidado con notación de puntos -->
+                <td>
+                    <span th:text="${imagen.centroid_coordinates.lat}">lat</span>,
+                    <span th:text="${imagen.centroid_coordinates.lon}">lon</span>
+                </td>
+                <td th:text="${imagen.caption}">descripción</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

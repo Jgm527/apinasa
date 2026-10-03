@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#132e2a"><title>EPIC | NASA Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body><div class="page-shell">
+    <div th:replace="~{fragments/nav :: nav('epic')}"></div>
+    <main>
+        <section class="page-heading compact-heading">
+            <div><p class="eyebrow"><span>04</span> OBSERVACIÓN DE LA TIERRA</p><h1>La Tierra<br><em>desde EPIC.</em></h1>
+                <p class="lede">Metadatos de las imágenes de disco completo captadas por la cámara EPIC de DSCOVR.</p></div>
+            <form class="filter-panel date-filter" method="get" th:action="@{/epic}">
+                <label for="date">Fecha de las imágenes <span class="label-hint">vacía = última disponible</span></label>
+                <div class="inline-controls"><input id="date" name="date" type="date" th:value="${date}" th:attr="max=${today}"><button class="button button-dark" type="submit">Consultar <span aria-hidden="true">↗</span></button></div>
+                <small>El servicio entrega metadatos JSON; esta demo mantiene la llamada en api.nasa.gov.</small>
+            </form>
+        </section>
+        <div class="notice notice-error" role="alert" th:if="${error}" th:text="${error}"></div>
+        <section class="data-section" th:if="${images}">
+            <div class="section-topline"><div><p class="eyebrow">EPIC NATURAL</p><h2 th:text="|${images.size()} imágenes disponibles|">Imágenes disponibles</h2></div><span class="data-source">NASA api.nasa.gov · REQUIERE CLAVE</span></div>
+            <div class="event-list"><article class="event-row" th:each="image : ${images}">
+                <div class="event-index" th:text="${imageStat.count < 10 ? '0' + imageStat.count : imageStat.count}">01</div>
+                <div class="event-main"><h3 th:text="${image.caption != null and !image.caption.isBlank() ? image.caption : image.identifier}">Imagen EPIC</h3>
+                    <div class="event-meta"><span th:text="${image.date}">Fecha UTC</span><span th:text="|ID ${image.identifier}|">ID</span><span th:text="|Versión ${image.version}|">Versión</span></div></div>
+                <div class="event-geometry" th:if="${image.centroid_coordinates}"><small>CENTRO · LAT / LON</small><span th:text="|${image.centroid_coordinates.lat}, ${image.centroid_coordinates.lon}|">0, 0</span></div>
+            </article><div class="empty-row" th:if="${images.isEmpty()}">EPIC no devolvió imágenes para esa fecha.</div></div>
+        </section>
+        <section class="api-workbench" aria-labelledby="epic-api-title">
+            <div class="workbench-heading"><div><p class="eyebrow">DESPIECE DE LA PETICIÓN</p><h2 id="epic-api-title">De la URL al JSON</h2></div><span class="data-source">EPIC NATURAL · api.nasa.gov</span></div>
+            <div class="api-columns">
+                <article class="code-panel request-panel">
+                    <div class="code-panel-heading"><h3>1. Solicitud HTTP</h3><span class="api-method">GET</span></div>
+                    <dl class="url-parts"><div><dt>Host</dt><dd>https://api.nasa.gov</dd></div><div><dt>Ruta</dt><dd th:text="${date == null or date.isBlank() ? '/EPIC/api/natural/images' : '/EPIC/api/natural/date/' + date}">/EPIC/api/natural/images</dd></div><div><dt>api_key</dt><dd>NASA_API_KEY (redactada)</dd></div></dl>
+                    <pre><code th:if="${apiCall}" th:text="|${apiCall.method} ${apiCall.requestUrl}|">GET https://api.nasa.gov/EPIC/api/natural/images</code><code th:unless="${apiCall}">La petición no se ha enviado: revisa la fecha.</code></pre>
+                    <p>Sin fecha se usa `/images`; con fecha se usa `/date/AAAA-MM-DD`. Ambos endpoints pertenecen al host de la clave NASA.</p>
+                </article>
+                <article class="code-panel response-panel">
+                    <div class="code-panel-heading"><h3>2. Respuesta del servidor</h3><span class="response-label">INTERCAMBIO DE ESTA CARGA</span></div>
+                    <pre class="live-response-preview" th:if="${apiCall}"><code th:text="${#strings.abbreviate(apiCall.responseBody, 1000)}">JSON real de EPIC</code></pre>
+                    <details class="live-response" th:if="${apiCall}"><summary><span>Ver cuerpo completo recibido</span><span class="response-status" th:text="|${apiCall.statusLabel()} · ${apiCall.contentType()}|">HTTP 200</span></summary>
+                        <p class="live-api-error" th:if="${apiCall.error}" th:text="${apiCall.error}">Error de API</p><pre><code th:text="${apiCall.responseBody}">Respuesta bruta</code><span th:if="${#strings.isEmpty(apiCall.responseBody)}">El servidor no devolvió cuerpo HTTP.</span></pre>
+                    </details>
+                    <p class="no-live-response" th:unless="${apiCall}">No hubo petición porque la fecha no es válida.</p>
+                    <details class="schema-example"><summary>Campos de un registro EPIC</summary><pre><code>{
+  "identifier": "epic_1b_YYYYMMDDhhmmss",
+  "caption": "Earth imagery captured by EPIC",
+  "image": "epic_1b_...",
+  "date": "YYYY-MM-DD hh:mm:ss",
+  "version": "03",
+  "centroid_coordinates": { "lat": 0.0, "lon": 0.0 }
+}</code></pre></details>
+                </article>
+            </div>
+        </section>
+        <section class="learning-strip"><div class="learning-number">D</div><div><h3>JSON para datos, archivo para imágenes</h3><p>El endpoint consultado devuelve una colección de metadatos. Cada elemento describe una imagen mediante `identifier`, `date`, `caption` y coordenadas; la propiedad `image` identifica el archivo asociado.</p></div><a href="https://api.nasa.gov/#epic" target="_blank" rel="noreferrer">Catálogo api.nasa.gov ↗</a></section>
+    </main>
+    <footer><span>NASA LAB / PRÁCTICA MVC</span><span>Solo peticiones API a api.nasa.gov</span></footer>
+</div></body></html>

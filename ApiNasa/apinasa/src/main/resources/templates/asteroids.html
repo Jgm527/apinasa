@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#132e2a"><title>Asteroides | NASA Lab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body><div class="page-shell">
+    <div th:replace="~{fragments/nav :: nav('asteroids')}"></div>
+    <main>
+        <section class="page-heading compact-heading">
+            <div><p class="eyebrow"><span>02</span> OBJETOS CERCANOS A LA TIERRA</p><h1>Rastrear<br><em>aproximaciones.</em></h1>
+                <p class="lede">Explora los encuentros de asteroides con la Tierra según los datos de NeoWs.</p></div>
+            <form class="filter-panel" method="get" th:action="@{/asteroids}">
+                <label>Intervalo de observación <span class="label-hint">máximo 7 días</span></label>
+                <div class="date-pair"><input aria-label="Fecha inicial" name="start" type="date" th:value="${start}" th:attr="max=${today}" required><span>hasta</span><input aria-label="Fecha final" name="end" type="date" th:value="${end}" th:attr="max=${today}" required></div>
+                <button class="button button-dark full-button" type="submit">Buscar aproximaciones <span aria-hidden="true">↗</span></button>
+            </form>
+        </section>
+        <div class="notice notice-error" role="alert" th:if="${error}" th:text="${error}"></div>
+        <section class="data-section" th:if="${asteroids}">
+            <div class="section-topline"><div><p class="eyebrow">RESULTADOS</p><h2 th:text="|${asteroids.size()} objetos registrados|">0 objetos registrados</h2></div><span class="data-source">FUENTE · NASA NeoWs</span></div>
+            <div class="table-scroll"><table><thead><tr><th>FECHA</th><th>OBJETO</th><th>CLASIFICACIÓN NASA</th><th>DISTANCIA DE APROXIMACIÓN</th></tr></thead>
+                <tbody><tr th:each="asteroid : ${asteroids}"><td class="mono" th:text="${asteroid.date}">2026-01-01</td><td class="asteroid-name" th:text="${asteroid.name}">Asteroide</td><td><span class="status-tag" th:classappend="${asteroid.potentiallyHazardous} ? 'status-warn' : 'status-ok'" th:text="${asteroid.potentiallyHazardous} ? 'Potencialmente peligroso' : 'Sin clasificación de riesgo'">Estado</span></td><td class="mono" th:text="|${asteroid.distanceKm} km|">— km</td></tr>
+                <tr th:if="${asteroids.isEmpty()}"><td colspan="4" class="empty-row">No hay objetos en este intervalo.</td></tr></tbody>
+            </table></div>
+        </section>
+                <section class="api-workbench" aria-labelledby="neo-api-title">
+                        <div class="workbench-heading"><div><p class="eyebrow">DESPIECE DE LA PETICIÓN</p><h2 id="neo-api-title">De la URL al JSON</h2></div><span class="data-source">NEOWS · REQUIERE CLAVE</span></div>
+                        <div class="api-columns">
+                                <article class="code-panel request-panel">
+                                        <div class="code-panel-heading"><h3>1. Solicitud HTTP</h3><span class="api-method">GET</span></div>
+                                        <dl class="url-parts">
+                                                <div><dt>Host</dt><dd>https://api.nasa.gov</dd></div>
+                                                <div><dt>Ruta</dt><dd>/neo/rest/v1/feed</dd></div>
+                                                <div><dt>start_date</dt><dd th:text="${start}">2026-09-26</dd></div>
+                                                <div><dt>end_date</dt><dd th:text="${end}">2026-10-02</dd></div>
+                                                <div><dt>api_key</dt><dd>NASA_API_KEY (oculta)</dd></div>
+                                        </dl>
+                                        <pre><code th:if="${apiCall}" th:text="|${apiCall.method} ${apiCall.requestUrl}|">GET https://api.nasa.gov/neo/rest/v1/feed</code><code th:unless="${apiCall}">La petición no se ha enviado: corrige el rango para continuar.</code></pre>
+                                        <p>Los parámetros van en la query string. En una aplicación real, el backend sustituye el marcador por la clave privada; nunca se imprime su valor aquí.</p>
+                                </article>
+                                <article class="code-panel response-panel">
+                                        <div class="code-panel-heading"><h3>2. Respuesta del servidor</h3><span class="response-label">INTERCAMBIO DE ESTA CARGA</span></div>
+                                        <pre class="live-response-preview" th:if="${apiCall}"><code th:text="${#strings.abbreviate(apiCall.responseBody, 1000)}">Extracto del JSON recibido en esta petición</code></pre>
+                                        <details class="live-response" th:if="${apiCall}">
+                                            <summary><span>Ver cuerpo completo recibido</span><span class="response-status" th:text="|${apiCall.statusLabel()} · ${apiCall.contentType()}|">HTTP 200 · application/json</span></summary>
+                                            <p class="live-api-error" th:if="${apiCall.error}" th:text="${apiCall.error}">Error HTTP</p>
+                                            <pre><code th:text="${apiCall.responseBody}">Cuerpo real devuelto por NASA</code><span th:if="${#strings.isEmpty(apiCall.responseBody)}">El servidor no devolvió cuerpo HTTP.</span></pre>
+                                        </details>
+                                        <p class="no-live-response" th:unless="${apiCall}">Todavía no se llamó a NeoWs; corrige las fechas o envía una búsqueda válida.</p>
+                                        <details class="schema-example"><summary>Consultar estructura reducida de NeoWs</summary>
+                                        <pre><code>{
+    "near_earth_objects": {
+        "2026-10-02": [
+            {
+                "id": "2465633",
+                "name": "465633 (2009 JR5)",
+                "is_potentially_hazardous_asteroid": false,
+                "close_approach_data": [
+                    {
+                        "close_approach_date": "2026-10-02",
+                        "miss_distance": { "kilometers": "...", "astronomical": "..." }
+                    }
+                ]
+            }
+        ]
+    }
+}</code></pre>
+                                        </details>
+                                        <p>Estructura ilustrativa: la clave de `near_earth_objects` es la fecha y su valor es una lista. La distancia incluye unidades; la tabla selecciona kilómetros.</p>
+                                </article>
+                        </div>
+                </section>
+        <section class="learning-strip"><div class="learning-number">B</div><div><h3>La respuesta contiene más que una lista</h3><p>NeoWs agrupa los objetos en <code>near_earth_objects</code>, usando la fecha como clave. Cada objeto puede contener una o varias aproximaciones y distancias expresadas en distintas unidades. Aquí normalizamos a kilómetros para la tabla.</p></div><a href="https://api.nasa.gov/#neo_ws" target="_blank" rel="noreferrer">Documentación NeoWs ↗</a></section>
+        <p class="legacy-note">“Potencialmente peligroso” es una clasificación técnica, no una predicción de impacto inminente. La API está pensada para consulta y aprendizaje, no para emitir alertas.</p>
+    </main>
+    <footer><span>NASA LAB / PRÁCTICA MVC</span><span>Fuentes públicas · Consulta no operativa</span></footer>
+</div></body></html>

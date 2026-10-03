@@ -1,0 +1,5 @@
+# Compilados de Maven
+target/
+
+# Variables de entorno locales (si las creas)
+.env
