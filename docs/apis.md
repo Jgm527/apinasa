@@ -1,6 +1,6 @@
 # APIs de NASA con Java y Spring Boot
 
-**Revisada el 2 de octubre de 2026.** Esta guía se centra en el catálogo de [api.nasa.gov](https://api.nasa.gov/) y acompaña a la aplicación `ApiNasa/apinasa`. Las peticiones externas que hace el proyecto se dirigen exclusivamente a `https://api.nasa.gov`.
+**Revisada el 2 de octubre de 2026.** Esta guía se centra en el catálogo de [api.nasa.gov](https://api.nasa.gov/) y acompaña a la aplicación `apps/apinasa`. Las peticiones externas que hace el proyecto se dirigen exclusivamente a `https://api.nasa.gov`.
 
 ## Alcance del proyecto
 
@@ -206,4 +206,4 @@ APOD también está en transición: el catálogo ha anunciado la retirada del en
 - [Asteroids NeoWs](https://api.nasa.gov/#neo_ws)
 - [DONKI](https://api.nasa.gov/#donki)
 - [EPIC](https://api.nasa.gov/#epic)
-- [README de la aplicación](ApiNasa/apinasa/README.md)
+- [README de la aplicación](../apps/apinasa/README.md)
