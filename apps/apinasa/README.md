@@ -6,7 +6,7 @@ Aplicación educativa MVC con Spring Boot, Thymeleaf y APIs públicas de NASA. P
 
 Requisitos: Java 25 (el proyecto declara `java.version=25`) y conexión a Internet para consultar servicios externos.
 
-Solicita tu clave personal gratuita en [api.nasa.gov](https://api.nasa.gov/). En PowerShell, desde `ApiNasa/apinasa`, crea tu archivo local y ábrelo para pegar la clave:
+Solicita tu clave personal gratuita en [api.nasa.gov](https://api.nasa.gov/). En PowerShell, desde `apps/apinasa`, crea tu archivo local y ábrelo para pegar la clave:
 
 ```powershell
 Copy-Item .env.example .env
@@ -44,7 +44,7 @@ Las cuatro demostraciones hacen peticiones a rutas bajo `https://api.nasa.gov`. 
 | `/donki` | DONKI FLR | Consultar fulguraciones solares en un intervalo y leer una colección JSON de eventos. Requiere `NASA_API_KEY`. |
 | `/epic` | EPIC Natural | Consultar metadatos de las últimas imágenes de la Tierra o de una fecha concreta. Requiere `NASA_API_KEY`. |
 
-APOD se explica como servicio relacionado en `infoapi.md`, pero no se usa como demo porque NASA está migrando su ruta y la nueva versión reside en otro host.
+APOD se explica como servicio relacionado en [`docs/apis.md`](../../docs/apis.md), pero no se usa como demo porque NASA está migrando su ruta y la nueva versión reside en otro host.
 
 El catálogo NASA también enlaza con servicios relacionados alojados en otros dominios, como EONET, NASA Images, GIBS o Exoplanet Archive. Se pueden estudiar como ejemplos de ecosistema, pero **no se llaman desde esta aplicación**: el alcance del proyecto es practicar peticiones al host `api.nasa.gov`.
 

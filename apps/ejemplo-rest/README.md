@@ -1,6 +1,6 @@
 # Ejemplo mínimo: @RestController
 
-Versión reducida al mínimo del proyecto `ApiNasa/apinasa` para explicar qué es un
+Versión reducida al mínimo del proyecto `apps/apinasa` para explicar qué es un
 **controlador REST** en Spring Boot: devuelve **datos (JSON)**, no páginas HTML.
 
 Mismo stack que ApiNasa: Spring Boot 4.1.1 + Java 25.
@@ -46,7 +46,7 @@ $env:NASA_API_KEY = "pega_aqui_tu_clave"
 
 Los tests no llaman a NASA: prueban el endpoint local directamente y
 simulan las respuestas de NASA con `MockRestServiceServer` (la misma
-técnica que usa ApiNasa/apinasa).
+técnica que usa apps/apinasa).
 
 ## ¿Qué hay que entender aquí?
 
@@ -63,7 +63,7 @@ Un `@Controller` devuelve el nombre de una plantilla Thymeleaf (HTML); un
 `@RestController` devuelve objetos que Spring convierte a JSON. Compara con el
 proyecto hermano `ejemplo-mvc`.
 
-## Siguientes pasos (ya vienen en ApiNasa/apinasa)
+## Siguientes pasos (ya vienen en apps/apinasa)
 
 Gestión de errores (4xx/5xx/429), timeouts, validación de parámetros,
 redacción de la clave en las respuestas y tests con servidor HTTP

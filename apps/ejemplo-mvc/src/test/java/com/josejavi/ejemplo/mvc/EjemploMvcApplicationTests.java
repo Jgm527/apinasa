@@ -19,7 +19,7 @@ import com.josejavi.ejemplo.mvc.web.NasaController;
  *   - Se instancia el controlador directamente (como cualquier clase).
  *   - Las respuestas de NASA se simulan con MockRestServiceServer:
  *     un servidor HTTP de mentira que devuelve JSON preparado a mano.
- *     Es la misma técnica que usa el proyecto ApiNasa/apinasa.
+ *     Es la misma técnica que usa el proyecto apps/apinasa.
  */
 class EjemploMvcApplicationTests {
 

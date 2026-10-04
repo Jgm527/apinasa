@@ -21,7 +21,7 @@ import com.josejavi.ejemplo.rest.web.NasaRestController.EpicImage;
  *     instanciando el controlador como cualquier clase de Java.
  *   - El endpoint /api/epic se prueba con MockRestServiceServer,
  *     que sustituye el HTTP real por respuestas preparadas a mano.
- *     Es la misma técnica que usa el proyecto ApiNasa/apinasa.
+ *     Es la misma técnica que usa el proyecto apps/apinasa.
  */
 class EjemploRestApplicationTests {
 

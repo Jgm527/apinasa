@@ -1,6 +1,6 @@
 # Ejemplo mínimo: @Controller + Thymeleaf
 
-Versión reducida al mínimo del proyecto `ApiNasa/apinasa` para explicar qué es un
+Versión reducida al mínimo del proyecto `apps/apinasa` para explicar qué es un
 **controlador MVC** en Spring Boot: el controlador prepara los datos y Thymeleaf
 renderiza el HTML en el servidor.
 
@@ -47,7 +47,7 @@ $env:NASA_API_KEY = "pega_aqui_tu_clave"
 ```
 
 Los tests no llaman a NASA: simulan sus respuestas con
-`MockRestServiceServer` (la misma técnica que usa ApiNasa/apinasa).
+`MockRestServiceServer` (la misma técnica que usa apps/apinasa).
 
 ## ¿Qué hay que entender aquí?
 
@@ -63,7 +63,7 @@ Los tests no llaman a NASA: simulan sus respuestas con
 Un `@RestController` devuelve objetos (JSON); un `@Controller` devuelve HTML
 renderizado. Compara con el proyecto hermano `ejemplo-rest`.
 
-## Siguientes pasos (ya vienen en ApiNasa/apinasa)
+## Siguientes pasos (ya vienen en apps/apinasa)
 
 Validación de parámetros (fechas), gestión de errores (4xx/5xx/429),
 timeouts, fragmentos de plantilla reutilizables y tests con servidor

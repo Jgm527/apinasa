@@ -37,7 +37,7 @@ public class ApinasaApplication {
 	private static Path findEnvDirectory(Path workingDirectory) {
 		Path[] candidates = {
 			workingDirectory,
-			workingDirectory.resolve("ApiNasa/apinasa"),
+			workingDirectory.resolve("apps/apinasa"),
 			workingDirectory.resolve("apinasa")
 		};
 
