@@ -11,7 +11,7 @@ defineProps<{ links: { href: string; label: string }[]; repo: string }>()
   <header class="sticky top-0 z-40 border-b border-border bg-bg/70 backdrop-blur-md backdrop-saturate-150">
     <div class="mx-auto flex h-14 w-[min(100%-2rem,64rem)] items-center justify-between gap-4">
       <a href="#" class="flex items-center gap-2 font-semibold tracking-tight text-fg">
-        <img src="/logo.png" alt="" class="h-6 w-auto" />
+        <img src="/logo.svg" alt="" class="h-6 w-auto" />
         NASA Spring Guide
       </a>
       <nav class="hidden items-center gap-1 md:flex" aria-label="Secciones">
