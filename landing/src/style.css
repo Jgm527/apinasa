@@ -1,0 +1,27 @@
+@import "tailwindcss";
+@import "@joseestevez/vue-elastic-ui/tokens.css";
+
+@source "../node_modules/@joseestevez/vue-elastic-ui/dist";
+
+/* The project's identity: NASA-inspired blue as the accent. Spring green only marks what is Spring. */
+:root {
+  --color-accent: light-dark(#0b3d91, #7aa7ff);
+  --color-accent-hover: light-dark(#082f70, #a9c5ff);
+  --color-accent-subtle: light-dark(#eaf0fb, #121f3a);
+  --color-accent-fg: light-dark(#ffffff, #071a3d);
+  --spring: #6db33f;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+  font-family: var(--font-sans);
+}
+
+html {
+  @apply scrollbar-subtle;
+}
+
+.scroll-anchor {
+  scroll-margin-top: calc(var(--page-header-height, 0px) + 1.5rem);
+}
