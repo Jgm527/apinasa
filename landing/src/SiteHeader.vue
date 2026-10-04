@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { Button, IconLink, IconLinks, ThemeToggle } from '@joseestevez/vue-elastic-ui'
 import { siGithub } from 'simple-icons'
+import { RouterLink } from 'vue-router'
 
-defineProps<{ links: { href: string; label: string }[]; repo: string }>()
+defineProps<{ links: { id: string; label: string }[]; repo: string }>()
+
+const go = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 </script>
 
 <template>
@@ -10,14 +13,15 @@ defineProps<{ links: { href: string; label: string }[]; repo: string }>()
        and nothing is ever moved to make room for it. -->
   <header class="sticky top-0 z-40 border-b border-border bg-bg/70 backdrop-blur-md backdrop-saturate-150">
     <div class="mx-auto flex h-14 w-[min(100%-2rem,64rem)] items-center justify-between gap-4">
-      <a href="#" class="flex items-center gap-2 font-semibold tracking-tight text-fg">
+      <RouterLink to="/" class="flex items-center gap-2 font-semibold tracking-tight text-fg">
         <img src="/logo.svg" alt="" class="h-6 w-auto" />
         NASA Spring Guide
-      </a>
+      </RouterLink>
       <nav class="hidden items-center gap-1 md:flex" aria-label="Secciones">
-        <Button v-for="link in links" :key="link.href" :href="link.href" variant="ghost" size="sm">
+        <Button v-for="link in links" :key="link.id" variant="ghost" size="sm" @click="go(link.id)">
           {{ link.label }}
         </Button>
+        <Button to="/docs" variant="ghost" size="sm">Documentación</Button>
       </nav>
       <div class="flex items-center gap-1">
         <IconLinks variant="ghost" label="Enlaces del proyecto" class="w-32 justify-end">

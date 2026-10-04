@@ -25,3 +25,8 @@ html {
 .scroll-anchor {
   scroll-margin-top: calc(var(--page-header-height, 0px) + 1.5rem);
 }
+
+/* An anchor reached from the header lands below it, never under it. */
+h2 {
+  scroll-margin-top: 5rem;
+}
