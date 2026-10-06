@@ -23,13 +23,14 @@ import com.josejavi.ejemplo.rest.web.NasaRestController.EpicImage;
  *     que sustituye el HTTP real por respuestas preparadas a mano.
  *     Es la misma técnica que usa el proyecto apps/apinasa.
  */
+@SpringBootTest
 class EjemploRestApplicationTests {
 
     @Test
     void elEndpointSaludoDevuelveElMensajeEsperado() {
         // Instanciamos el controlador "a mano": un test de Java puro.
         NasaRestController controlador =
-                new NasaRestController(RestClient.builder(), "DEMO_KEY");
+          new NasaRestController(RestClient.builder());
 
         NasaRestController.Saludo saludo = controlador.saludo("Ada");
 
@@ -46,19 +47,18 @@ class EjemploRestApplicationTests {
         String json = """
                 [
                   {
-                    "identifier": "epic_1b_20261001",
+                    "identifier": "20260928005515",
+                    "image": "epic_1b_20260928005515",
                     "caption": "Earth imagery captured by EPIC",
-                    "date": "2026-10-01 12:00:00",
                     "centroid_coordinates": { "lat": -12.5, "lon": 45.2 }
                   }
                 ]
                 """;
-        server.expect(requestTo(
-                "https://api.nasa.gov/EPIC/api/natural/images?api_key=DEMO_KEY"))
+        server.expect(requestTo("https://epic.gsfc.nasa.gov/api/natural"))
                 .andRespond(withSuccess(json, MediaType.APPLICATION_JSON));
 
         // 3. Ejecutar el endpoint
-        NasaRestController controlador = new NasaRestController(builder, "DEMO_KEY");
+        NasaRestController controlador = new NasaRestController(builder);
         List<EpicImage> images = controlador.epic();
 
         // 4. Comprobar que se pidió la URL esperada y que el JSON
@@ -66,8 +66,8 @@ class EjemploRestApplicationTests {
         server.verify();
         assertEquals(1, images.size());
         EpicImage imagen = images.getFirst();
-        assertEquals("epic_1b_20261001", imagen.identifier());
-        assertEquals("2026-10-01 12:00:00", imagen.date());
+        assertEquals("20260928005515", imagen.identifier());
+        assertEquals("epic_1b_20260928005515", imagen.image());
         assertNotNull(imagen.centroid_coordinates());
         assertEquals(-12.5, imagen.centroid_coordinates().lat());
     }
