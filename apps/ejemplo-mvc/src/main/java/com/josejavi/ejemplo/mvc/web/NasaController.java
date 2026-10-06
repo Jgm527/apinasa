@@ -2,14 +2,12 @@ package com.josejavi.ejemplo.mvc.web;
 
 import java.net.URI;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  * CONTROLADOR MVC (clásico, como el proyecto ApiNasa).
@@ -24,20 +22,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class NasaController {
 
     private final RestClient restClient;
-    private final String apiKey;
 
     /**
      * Constructor: Spring inyecta las dependencias automáticamente.
      *
-     * @param builder RestClient.Builder lo crea Spring; lo usamos para construir
-     *                el cliente HTTP con el que se llamará a otras APIs.
-     * @param apiKey  {@code @Value} lee la propiedad "nasa.api-key" de
-     *                application.properties. Sin configuración extra, vale "DEMO_KEY".
+    * @param builder RestClient.Builder que Spring configura para llamadas HTTP.
      */
-    public NasaController(RestClient.Builder builder,
-                            @Value("${nasa.api-key}") String apiKey) {
+    public NasaController(RestClient.Builder builder) {
         this.restClient = builder.build();
-        this.apiKey = apiKey;
     }
 
     /**
@@ -63,14 +55,8 @@ public class NasaController {
     @GetMapping("/epic")
     public String epic(Model model) {
 
-        // 1) Construir la URL de destino. UriComponentsBuilder codifica los
-        //    parámetros correctamente, no se escribe la URL "a mano".
-        URI url = UriComponentsBuilder
-                .fromUriString("https://api.nasa.gov/EPIC/api/natural/images")
-                .queryParam("api_key", apiKey)
-                .encode()
-                .build()
-                .toUri();
+        // NASA trasladó EPIC a este endpoint público, que no requiere API key.
+        URI url = URI.create("https://epic.gsfc.nasa.gov/api/natural");
 
         // 2) Petición GET y conversión del JSON a objetos Java (DTOs).
         //    ParameterizedTypeReference es necesario por ser una LISTa.
@@ -83,10 +69,7 @@ public class NasaController {
         // 3) Datos para la plantilla: el Model es el "maletín" compartido.
         model.addAttribute("images", images);
 
-        // Mostramos la URL real de la petición (didáctica), pero NUNCA la
-        // clave: la sustituimos por un texto seguro antes de enviarla a la vista.
-        model.addAttribute("requestUrl",
-                url.toString().replace(apiKey, "NASA_API_KEY"));
+        model.addAttribute("requestUrl", url.toString());
 
         // El nombre de la plantilla (sin extensión): src/main/resources/templates/epic.html
         return "epic";

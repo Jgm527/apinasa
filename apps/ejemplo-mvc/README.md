@@ -5,7 +5,7 @@ Versión reducida al mínimo del proyecto `apps/apinasa` para explicar qué es u
 renderiza el HTML en el servidor.
 
 Mismo stack que ApiNasa: Spring Boot 4.1.1 + Java 25, sin las capas extra
-(timeouts, redacción de secretos, tests con servidor mock, .env...).
+(timeouts, tests con servidor mock, .env...).
 
 ## Requisitos
 
@@ -29,16 +29,10 @@ La aplicación arranca en http://localhost:8080 (redirige a `/epic`)
 | `GET /` | Redirige a `/epic`. |
 | `GET /epic` | Llama a la API de NASA (EPIC) y muestra los resultados en HTML. |
 
-## La clave de NASA
+## API de NASA EPIC
 
-Por defecto se usa `DEMO_KEY` (cuota muy limitada: 30 peticiones/hora por IP).
-Para usar tu clave personal (gratis en https://api.nasa.gov/), defínela como
-variable de entorno en la misma sesión de PowerShell:
-
-```powershell
-$env:NASA_API_KEY = "pega_aqui_tu_clave"
-.\mvnw.cmd spring-boot:run
-```
+La aplicación consulta el endpoint público `https://epic.gsfc.nasa.gov/api/natural`,
+que no requiere clave de API.
 
 ## Tests
 
@@ -56,7 +50,7 @@ Los tests no llaman a NASA: simulan sus respuestas con
 3. Plantillas en `src/main/resources/templates/` (aquí: `epic.html`).
 4. `th:text` y `th:each` = las expresiones de Thymeleaf para mostrar datos.
 5. `RestClient` = cliente HTTP de Spring para llamar a otras APIs.
-6. La clave nunca se muestra en la página: se redacta antes de enviarla a la vista.
+6. `RestClient` consulta el endpoint público de EPIC y pasa el JSON a la vista.
 
 ## Diferencia con `@RestController`
 

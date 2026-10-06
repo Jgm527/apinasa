@@ -57,14 +57,6 @@ El término de búsqueda se representa como un parámetro sin valor, siguiendo e
 
 La página local `/techtransfer` valida que el texto no esté vacío y limita su longitud antes de consultar.
 
-### Qué puedes hacer con TechTransfer
-
-Un buscador de patentes: escribes una palabra y la lista se queda con las patentes que la contienen, cada una con su número de caso y su categoría. Prueba con «sensor» o «aviones». Los datos son de ejemplo, con la forma de la respuesta real.
-
-```nasa-example api="techtransfer"
-Buscador de patentes con el número de caso, el título y la categoría de cada resultado. El ejemplo interactivo está en la web de la guía.
-```
-
 ## 2. Asteroids NeoWs: objetos cercanos a la Tierra
 
 NeoWs consulta asteroides y aproximaciones cercanas:
@@ -100,14 +92,6 @@ El feed permite un rango máximo de siete días. El JSON agrupa los objetos por 
 
 `near_earth_objects` es un mapa cuya clave es la fecha y cuyo valor es una lista. La distancia puede aparecer en varias unidades; no compares kilómetros con unidades astronómicas como si fueran lo mismo. “Potencialmente peligroso” es una clasificación, no un aviso de impacto inminente.
 
-### Qué puedes hacer con NeoWs
-
-Un radar de la semana: cuántos asteroides pasan, cuántos son potencialmente peligrosos y cuál pasa más cerca. En el gráfico, cada punto es un asteroide según su distancia y su tamaño. Los datos son de ejemplo, con la forma de la respuesta real.
-
-```nasa-example api="neows"
-Radar de asteroides: recuento por día, peligrosos y gráfico de distancia frente a diámetro. El ejemplo interactivo está en la web de la guía.
-```
-
 ## 3. DONKI FLR: fulguraciones solares
 
 DONKI contiene distintos productos de meteorología espacial. La app consulta **FLR** (Solar Flares):
@@ -136,14 +120,6 @@ En este producto los parámetros de fecha se escriben en camelCase: `startDate` 
 ```
 
 Los campos opcionales pueden faltar. DONKI ofrece análisis y datos de investigación; no se presenta aquí como sistema de emergencia o pronóstico operativo. La app limita su consulta didáctica a 30 días.
-
-### Qué puedes hacer con DONKI
-
-Un diario de tormentas solares: cada fulguración ordenada en el tiempo, con su hora de pico, su clase (C, M o X, de menor a mayor) y la región del Sol de la que salió. Los datos son de ejemplo, con la forma de la respuesta real.
-
-```nasa-example api="donki"
-Línea de tiempo de fulguraciones con hora de pico, clase y región activa. El ejemplo interactivo está en la web de la guía.
-```
 
 ## 4. EPIC Natural: metadatos de imágenes de la Tierra
 
@@ -175,14 +151,6 @@ El cuerpo es una lista JSON. Un objeto incluye datos como:
 ```
 
 La pantalla enseña esos metadatos y el intercambio JSON. El nombre del archivo (`image`) identifica el recurso asociado; esta demo se centra en la respuesta de metadatos y mantiene la petición bajo `api.nasa.gov`.
-
-### Qué puedes hacer con EPIC
-
-Ver girar la Tierra solo con los metadatos: la longitud del centro de cada foto a lo largo de un día baja unos 15° por hora, porque la Tierra gira bajo la cámara. Los datos son de ejemplo, con la forma de la respuesta real.
-
-```nasa-example api="epic"
-Gráfico de la longitud del centro de cada foto a lo largo de un día. El ejemplo interactivo está en la web de la guía.
-```
 
 ## Usar `RestClient` desde Spring Boot
 

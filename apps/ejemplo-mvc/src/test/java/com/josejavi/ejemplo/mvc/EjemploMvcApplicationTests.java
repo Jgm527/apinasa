@@ -26,7 +26,7 @@ class EjemploMvcApplicationTests {
     @Test
     void laRaizRedirigeAEpic() {
         NasaController controlador =
-                new NasaController(RestClient.builder(), "DEMO_KEY");
+                new NasaController(RestClient.builder());
 
         assertEquals("redirect:/epic", controlador.index());
     }
@@ -49,12 +49,12 @@ class EjemploMvcApplicationTests {
                 ]
                 """;
         server.expect(requestTo(
-                "https://api.nasa.gov/EPIC/api/natural/images?api_key=DEMO_KEY"))
+                "https://epic.gsfc.nasa.gov/api/natural"))
                 .andRespond(withSuccess(json, MediaType.APPLICATION_JSON));
 
         // 3. Ejecutar el método del controlador, con un Model de verdad
         ExtendedModelMap model = new ExtendedModelMap();
-        NasaController controlador = new NasaController(builder, "DEMO_KEY");
+        NasaController controlador = new NasaController(builder);
         String vista = controlador.epic(model);
 
         // 4. Comprobar la vista, los datos del Model y la URL mostrada
@@ -67,9 +67,8 @@ class EjemploMvcApplicationTests {
         assertEquals(1, images.size());
         assertEquals("epic_1b_20261001", images.getFirst().identifier());
 
-        // La clave nunca llega a la plantilla: se redacta antes
         assertEquals(
-                "https://api.nasa.gov/EPIC/api/natural/images?api_key=NASA_API_KEY",
+                "https://epic.gsfc.nasa.gov/api/natural",
                 model.get("requestUrl"));
     }
 

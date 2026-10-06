@@ -30,29 +30,3 @@ html {
 h2 {
   scroll-margin-top: 5rem;
 }
-
-/* Colours of the API examples in the docs. Space is dark in both themes; each concept keeps one colour. */
-:root {
-  --ex-space: #08122b;
-  --ex-space-line: rgb(150 180 255 / 0.16);
-  --ex-space-text: #c9d6f5;
-  --ex-ocean: #1d4fa8;
-  --ex-ocean-deep: #0b2a66;
-  --ex-land: #6fbf73;
-  --ex-safe: #5ec8ff;
-  --ex-hazard: #ff8a3d;
-  --ex-flare-c: #f5c518;
-  --ex-flare-m: #ff8a3d;
-  --ex-flare-x: #ef4444;
-  --ex-cat-materiales: #a78bfa;
-  --ex-cat-sensores: #22b8d4;
-  --ex-cat-aeronautica: #3b82f6;
-  --ex-cat-software: #22a06b;
-  --ex-cat-salud: #e0559a;
-}
-
-@keyframes ex-sweep {
-  to {
-    transform: rotate(360deg);
-  }
-}

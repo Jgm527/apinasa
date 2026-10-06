@@ -40,6 +40,12 @@
             <artifactId>spring-boot-starter-webmvc</artifactId>
         </dependency>
 
+        <!-- Cliente HTTP de Spring y autoconfiguración de RestClient.Builder. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-restclient</artifactId>
+        </dependency>
+
         <!--
             Starter Thymeleaf: motor de plantillas HTML del lado del servidor.
             Las plantillas viven en src/main/resources/templates.
