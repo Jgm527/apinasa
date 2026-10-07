@@ -61,6 +61,10 @@
 
   * [x] Probar las APIs de NASA con colecciones sencillas
   * [x] Hacer ejemplos sencillos y documentarlos
+  * [ ] Explorar los scripts de Postman (pre-request y tests) con ejemplos sencillos
+    * [ ] Comprobar el código de estado y el contenido de la respuesta con `pm.test`
+    * [ ] Guardar datos de una respuesta en variables para la siguiente petición
+    * [ ] Documentarlo en `docs/postman.md`
 * [ ] Investigar GraphQL
 
   * [ ] Hacer ejemplos sencillos con Spring Boot
