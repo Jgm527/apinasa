@@ -16,12 +16,12 @@
             <form class="filter-panel date-filter" method="get" th:action="@{/epic}">
                 <label for="date">Fecha de las imágenes <span class="label-hint">vacía = última disponible</span></label>
                 <div class="inline-controls"><input id="date" name="date" type="date" th:value="${date}" th:attr="max=${today}"><button class="button button-dark" type="submit">Consultar <span aria-hidden="true">↗</span></button></div>
-                <small>El servicio entrega metadatos JSON; esta demo mantiene la llamada en api.nasa.gov.</small>
+                <small>El servicio entrega metadatos JSON; esta demo no necesita clave.</small>
             </form>
         </section>
         <div class="notice notice-error" role="alert" th:if="${error}" th:text="${error}"></div>
         <section class="data-section" th:if="${images}">
-            <div class="section-topline"><div><p class="eyebrow">EPIC NATURAL</p><h2 th:text="|${images.size()} imágenes disponibles|">Imágenes disponibles</h2></div><span class="data-source">NASA api.nasa.gov · REQUIERE CLAVE</span></div>
+            <div class="section-topline"><div><p class="eyebrow">EPIC NATURAL</p><h2 th:text="|${images.size()} imágenes disponibles|">Imágenes disponibles</h2></div><span class="data-source">epic.gsfc.nasa.gov · SIN CLAVE</span></div>
             <div class="event-list"><article class="event-row" th:each="image : ${images}">
                 <div class="event-index" th:text="${imageStat.count < 10 ? '0' + imageStat.count : imageStat.count}">01</div>
                 <div class="event-main"><h3 th:text="${image.caption != null and !image.caption.isBlank() ? image.caption : image.identifier}">Imagen EPIC</h3>
@@ -30,13 +30,13 @@
             </article><div class="empty-row" th:if="${images.isEmpty()}">EPIC no devolvió imágenes para esa fecha.</div></div>
         </section>
         <section class="api-workbench" aria-labelledby="epic-api-title">
-            <div class="workbench-heading"><div><p class="eyebrow">DESPIECE DE LA PETICIÓN</p><h2 id="epic-api-title">De la URL al JSON</h2></div><span class="data-source">EPIC NATURAL · api.nasa.gov</span></div>
+            <div class="workbench-heading"><div><p class="eyebrow">DESPIECE DE LA PETICIÓN</p><h2 id="epic-api-title">De la URL al JSON</h2></div><span class="data-source">EPIC NATURAL · epic.gsfc.nasa.gov</span></div>
             <div class="api-columns">
                 <article class="code-panel request-panel">
                     <div class="code-panel-heading"><h3>1. Solicitud HTTP</h3><span class="api-method">GET</span></div>
-                    <dl class="url-parts"><div><dt>Host</dt><dd>https://api.nasa.gov</dd></div><div><dt>Ruta</dt><dd th:text="${date == null or date.isBlank() ? '/EPIC/api/natural/images' : '/EPIC/api/natural/date/' + date}">/EPIC/api/natural/images</dd></div><div><dt>api_key</dt><dd>NASA_API_KEY (redactada)</dd></div></dl>
-                    <pre><code th:if="${apiCall}" th:text="|${apiCall.method} ${apiCall.requestUrl}|">GET https://api.nasa.gov/EPIC/api/natural/images</code><code th:unless="${apiCall}">La petición no se ha enviado: revisa la fecha.</code></pre>
-                    <p>Sin fecha se usa `/images`; con fecha se usa `/date/AAAA-MM-DD`. Ambos endpoints pertenecen al host de la clave NASA.</p>
+                    <dl class="url-parts"><div><dt>Host</dt><dd>https://epic.gsfc.nasa.gov</dd></div><div><dt>Ruta</dt><dd th:text="${date == null or date.isBlank() ? '/api/natural' : '/api/natural/date/' + date}">/api/natural</dd></div></dl>
+                    <pre><code th:if="${apiCall}" th:text="|${apiCall.method} ${apiCall.requestUrl}|">GET https://epic.gsfc.nasa.gov/api/natural</code><code th:unless="${apiCall}">La petición no se ha enviado: revisa la fecha.</code></pre>
+                    <p>Sin fecha se usa `/api/natural`; con fecha se usa `/api/natural/date/AAAA-MM-DD`.</p>
                 </article>
                 <article class="code-panel response-panel">
                     <div class="code-panel-heading"><h3>2. Respuesta del servidor</h3><span class="response-label">INTERCAMBIO DE ESTA CARGA</span></div>
@@ -56,7 +56,7 @@
                 </article>
             </div>
         </section>
-        <section class="learning-strip"><div class="learning-number">D</div><div><h3>JSON para datos, archivo para imágenes</h3><p>El endpoint consultado devuelve una colección de metadatos. Cada elemento describe una imagen mediante `identifier`, `date`, `caption` y coordenadas; la propiedad `image` identifica el archivo asociado.</p></div><a href="https://api.nasa.gov/#epic" target="_blank" rel="noreferrer">Catálogo api.nasa.gov ↗</a></section>
+        <section class="learning-strip"><div class="learning-number">D</div><div><h3>JSON para datos, archivo para imágenes</h3><p>El endpoint consultado devuelve una colección de metadatos. Cada elemento describe una imagen mediante `identifier`, `date`, `caption` y coordenadas; la propiedad `image` identifica el archivo asociado.</p></div><a href="https://epic.gsfc.nasa.gov/" target="_blank" rel="noreferrer">Sitio EPIC ↗</a></section>
     </main>
-    <footer><span>NASA LAB / PRÁCTICA MVC</span><span>Solo peticiones API a api.nasa.gov</span></footer>
+    <footer><span>NASA LAB / PRÁCTICA MVC</span><span>Solo peticiones a APIs públicas de NASA</span></footer>
 </div></body></html>

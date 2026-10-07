@@ -21,7 +21,7 @@
         </section>
         <div class="notice notice-error" role="alert" th:if="${error}" th:text="${error}"></div>
         <section class="event-results" th:if="${flares}">
-            <div class="section-topline"><div><p class="eyebrow">SOLAR FLARES · FLR</p><h2 th:text="|${flares.size()} fulguraciones|">Fulguraciones</h2></div><span class="data-source">api.nasa.gov · REQUIERE CLAVE</span></div>
+            <div class="section-topline"><div><p class="eyebrow">SOLAR FLARES · FLR</p><h2 th:text="|${flares.size()} fulguraciones|">Fulguraciones</h2></div><span class="data-source">ccmc.gsfc.nasa.gov · SIN CLAVE</span></div>
             <div class="event-list"><article class="event-row" th:each="flare : ${flares}">
                 <div class="event-index" th:text="${flareStat.count < 10 ? '0' + flareStat.count : flareStat.count}">01</div>
                 <div class="event-main"><h3 th:text="${flare.classType != null ? flare.classType : 'Fulguración solar'}">Clase de fulguración</h3>
@@ -31,17 +31,16 @@
             </article><div class="empty-row" th:if="${flares.isEmpty()}">No hay fulguraciones en ese intervalo.</div></div>
         </section>
         <section class="api-workbench" aria-labelledby="donki-api-title">
-            <div class="workbench-heading"><div><p class="eyebrow">DESPIECE DE LA PETICIÓN</p><h2 id="donki-api-title">De la URL al JSON</h2></div><span class="data-source">DONKI FLR · api.nasa.gov</span></div>
+            <div class="workbench-heading"><div><p class="eyebrow">DESPIECE DE LA PETICIÓN</p><h2 id="donki-api-title">De la URL al JSON</h2></div><span class="data-source">DONKI FLR · ccmc.gsfc.nasa.gov</span></div>
             <div class="api-columns">
                 <article class="code-panel request-panel">
                     <div class="code-panel-heading"><h3>1. Solicitud HTTP</h3><span class="api-method">GET</span></div>
                     <dl class="url-parts">
-                        <div><dt>Host</dt><dd>https://api.nasa.gov</dd></div><div><dt>Ruta</dt><dd>/DONKI/FLR</dd></div>
+                        <div><dt>Host</dt><dd>https://ccmc.gsfc.nasa.gov</dd></div><div><dt>Ruta</dt><dd>/DONKI-API/get/FLR</dd></div>
                         <div><dt>startDate</dt><dd th:text="${start}">2026-10-01</dd></div><div><dt>endDate</dt><dd th:text="${end}">2026-10-02</dd></div>
-                        <div><dt>api_key</dt><dd>NASA_API_KEY (redactada)</dd></div>
                     </dl>
-                    <pre><code th:if="${apiCall}" th:text="|${apiCall.method} ${apiCall.requestUrl}|">GET https://api.nasa.gov/DONKI/FLR</code><code th:unless="${apiCall}">La petición no se ha enviado: revisa las fechas.</code></pre>
-                    <p>DONKI usa `startDate` y `endDate` en camelCase. La clave real solo se añade en el servidor y se oculta en el panel.</p>
+                    <pre><code th:if="${apiCall}" th:text="|${apiCall.method} ${apiCall.requestUrl}|">GET https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR</code><code th:unless="${apiCall}">La petición no se ha enviado: revisa las fechas.</code></pre>
+                    <p>DONKI usa `startDate` y `endDate` en camelCase. Esta API no necesita clave.</p>
                 </article>
                 <article class="code-panel response-panel">
                     <div class="code-panel-heading"><h3>2. Respuesta del servidor</h3><span class="response-label">INTERCAMBIO DE ESTA CARGA</span></div>
@@ -62,8 +61,8 @@
                 </article>
             </div>
         </section>
-        <section class="learning-strip"><div class="learning-number">C</div><div><h3>Una colección de eventos</h3><p>FLR devuelve una lista JSON: cada elemento es una fulguración y sus campos pueden ser nulos. `classType` expresa la clase observada; estos datos no son una predicción oficial de impacto terrestre.</p></div><a href="https://api.nasa.gov/#donki" target="_blank" rel="noreferrer">Catálogo api.nasa.gov ↗</a></section>
+        <section class="learning-strip"><div class="learning-number">C</div><div><h3>Una colección de eventos</h3><p>FLR devuelve una lista JSON: cada elemento es una fulguración y sus campos pueden ser nulos. `classType` expresa la clase observada; estos datos no son una predicción oficial de impacto terrestre.</p></div><a href="https://ccmc.gsfc.nasa.gov/tools/DONKI/" target="_blank" rel="noreferrer">Documentación DONKI ↗</a></section>
         <p class="legacy-note">DONKI ofrece productos de investigación y notificación de meteorología espacial. No es un servicio de emergencia ni sustituye a las fuentes oficiales de predicción.</p>
     </main>
-    <footer><span>NASA LAB / PRÁCTICA MVC</span><span>Solo peticiones API a api.nasa.gov</span></footer>
+    <footer><span>NASA LAB / PRÁCTICA MVC</span><span>Solo peticiones a APIs públicas de NASA</span></footer>
 </div></body></html>

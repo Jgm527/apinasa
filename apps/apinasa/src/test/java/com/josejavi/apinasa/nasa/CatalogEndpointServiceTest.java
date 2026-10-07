@@ -11,47 +11,72 @@ import org.springframework.web.client.RestClient;
 
 class CatalogEndpointServiceTest {
     @Test
-    void techTransferUsesApiNasaGovAndPatentQueryParameter() {
+    void techTransferPutsTheSearchTermInThePathWithoutAKey() {
         RestClient.Builder builder = RestClient.builder();
         MockRestServiceServer server = MockRestServiceServer.bindTo(builder).build();
-        server.expect(requestTo("https://api.nasa.gov/techtransfer/patent/?aircraft&api_key=test-key"))
-            .andRespond(withSuccess("{\"results\":[\"patent\",[]]}", MediaType.APPLICATION_JSON));
+        server.expect(requestTo("https://technology.nasa.gov/api/api/patent/aircraft"))
+            .andRespond(withSuccess("{\"results\":[],\"count\":0}", MediaType.APPLICATION_JSON));
 
-        ApiExchange<Object> exchange = new TechTransferService(builder, "test-key").searchPatents("aircraft");
+        ApiExchange<Object> exchange = new TechTransferService(builder).searchPatents("aircraft");
 
         assertEquals(200, exchange.statusCode());
-        assertEquals("https://api.nasa.gov/techtransfer/patent/?aircraft&api_key=NASA_API_KEY", exchange.requestUrl());
+        assertEquals("https://technology.nasa.gov/api/api/patent/aircraft", exchange.requestUrl());
         assertEquals("application/json", exchange.contentType());
         server.verify();
     }
 
     @Test
-    void donkiUsesTheCentralCatalogHostAndCamelCaseDateParameters() {
+    void techTransferEncodesSpacesAndSlashesInTheTerm() {
         RestClient.Builder builder = RestClient.builder();
         MockRestServiceServer server = MockRestServiceServer.bindTo(builder).build();
-        server.expect(requestTo("https://api.nasa.gov/DONKI/FLR?startDate=2026-10-01&endDate=2026-10-02&api_key=test-key"))
-            .andRespond(withSuccess("[]", MediaType.APPLICATION_JSON));
+        server.expect(requestTo("https://technology.nasa.gov/api/api/patent/solar%20panel%2Fcell"))
+            .andRespond(withSuccess("{}", MediaType.APPLICATION_JSON));
 
-        ApiExchange<?> exchange = new DonkiService(builder, "test-key").findFlares("2026-10-01", "2026-10-02");
+        ApiExchange<Object> exchange = new TechTransferService(builder).searchPatents("solar panel/cell");
 
         assertEquals(200, exchange.statusCode());
-        assertEquals("https://api.nasa.gov/DONKI/FLR?startDate=2026-10-01&endDate=2026-10-02&api_key=NASA_API_KEY",
+        server.verify();
+    }
+
+    @Test
+    void donkiUsesTheCcmcApiAndCamelCaseDateParametersWithoutAKey() {
+        RestClient.Builder builder = RestClient.builder();
+        MockRestServiceServer server = MockRestServiceServer.bindTo(builder).build();
+        server.expect(requestTo("https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR?startDate=2026-10-01&endDate=2026-10-02"))
+            .andRespond(withSuccess("[]", MediaType.APPLICATION_JSON));
+
+        ApiExchange<?> exchange = new DonkiService(builder).findFlares("2026-10-01", "2026-10-02");
+
+        assertEquals(200, exchange.statusCode());
+        assertEquals("https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR?startDate=2026-10-01&endDate=2026-10-02",
             exchange.requestUrl());
         server.verify();
     }
 
     @Test
-    void epicDateUsesAPathSegmentOnTheCentralCatalogHost() {
+    void epicWithoutADateAsksForTheLatestImages() {
         RestClient.Builder builder = RestClient.builder();
         MockRestServiceServer server = MockRestServiceServer.bindTo(builder).build();
-        server.expect(requestTo("https://api.nasa.gov/EPIC/api/natural/date/2026-10-01?api_key=test-key"))
+        server.expect(requestTo("https://epic.gsfc.nasa.gov/api/natural"))
             .andRespond(withSuccess("[]", MediaType.APPLICATION_JSON));
 
-        ApiExchange<?> exchange = new EpicService(builder, "test-key").findImages("2026-10-01");
+        ApiExchange<?> exchange = new EpicService(builder).findImages("");
 
         assertEquals(200, exchange.statusCode());
-        assertEquals("https://api.nasa.gov/EPIC/api/natural/date/2026-10-01?api_key=NASA_API_KEY",
-            exchange.requestUrl());
+        server.verify();
+    }
+
+    @Test
+    void epicDateUsesAPathSegmentOnTheEpicHost() {
+        RestClient.Builder builder = RestClient.builder();
+        MockRestServiceServer server = MockRestServiceServer.bindTo(builder).build();
+        server.expect(requestTo("https://epic.gsfc.nasa.gov/api/natural/date/2026-10-01"))
+            .andRespond(withSuccess("[]", MediaType.APPLICATION_JSON));
+
+        ApiExchange<?> exchange = new EpicService(builder).findImages("2026-10-01");
+
+        assertEquals(200, exchange.statusCode());
+        assertEquals("https://epic.gsfc.nasa.gov/api/natural/date/2026-10-01", exchange.requestUrl());
         server.verify();
     }
 }
