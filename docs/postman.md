@@ -43,13 +43,13 @@ Postman sustituye `{{NASA_API_KEY}}` por el valor del entorno al enviar, así la
 
 ## 5. Importar la colección del proyecto
 
-En la carpeta [`postman/`](https://github.com/Jgm527/apinasa/tree/main/postman) hay una colección con una petición por API (TechTransfer, NeoWs, DONKI y EPIC) y una a `ejemplo-rest` y un entorno con las variables.
+En la carpeta [`postman/`](https://github.com/Jgm527/apinasa/tree/main/postman) hay una colección y un entorno con las variables. La colección tiene una petición por API (TechTransfer, NeoWs, DONKI y EPIC) y otra a `ejemplo-rest`, que solo funciona con esa app arrancada.
 
 1. En Postman, pulsa **Import** y arrastra los dos archivos de la carpeta.
 2. Elige el entorno **NASA** arriba a la derecha.
 3. Abre una petición y pulsa **Send**.
 
-El entorno trae `DEMO_KEY`, que sirve para probar pero tiene límites estrictos. Para usar tu clave, cámbiala en tu copia local y no exportes ni subas ese entorno.
+El entorno trae `DEMO_KEY`, que sirve para probar pero tiene límites estrictos. Para usar tu clave, cámbiala en tu copia y no exportes ni subas ese entorno.
 
 ## 6. Postman y la aplicación
 

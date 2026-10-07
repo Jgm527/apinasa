@@ -29,7 +29,7 @@ Arranca la aplicación desde esa carpeta:
 
 La aplicación queda disponible en `http://localhost:8080`.
 
-Las demostraciones llaman a tres servidores de NASA (`api.nasa.gov`, `ccmc.gsfc.nasa.gov`, `epic.gsfc.nasa.gov`) y a `technology.nasa.gov`. Solo NeoWs usa clave. Si no la defines, se usa `DEMO_KEY`, cuya cuota por IP es reducida y compartida. Para ejecutar los tests:
+Las demostraciones llaman a cuatro servidores de NASA: `api.nasa.gov`, `technology.nasa.gov`, `ccmc.gsfc.nasa.gov` y `epic.gsfc.nasa.gov`. Solo NeoWs usa clave. Si no la defines, se usa `DEMO_KEY`, cuya cuota por IP es reducida y compartida. Para ejecutar los tests:
 
 ```powershell
 .\mvnw.cmd clean test

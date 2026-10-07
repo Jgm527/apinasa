@@ -4,7 +4,7 @@ Contexto para agentes que trabajen en este repositorio.
 
 ## Qué es
 
-NASA Spring Guide: una guía didáctica de Spring Boot sobre APIs públicas de NASA. Es un proyecto de aprendizaje, no un producto.
+NASA Spring Guide: una guía didáctica de Spring Boot sobre APIs públicas de NASA. Es un proyecto de aprendizaje.
 
 ## Estructura
 
