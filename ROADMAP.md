@@ -55,7 +55,23 @@
 * [x] Enlazar con la documentación y GitHub
 * [x] Utilizar `elastic-ui` para los componentes
 
-## 6. Revisión final
+## 6. Siguientes pasos
+
+* [ ] Investigar Postman
+
+  * [ ] Probar las APIs de NASA con colecciones sencillas
+  * [ ] Hacer ejemplos sencillos y documentarlos
+* [ ] Investigar GraphQL
+
+  * [ ] Hacer ejemplos sencillos con Spring Boot
+  * [ ] Comparar con REST de forma breve
+* [ ] Hacer presentaciones
+
+  * [ ] Presentación del proyecto
+  * [ ] Presentación de Postman y GraphQL
+* [x] Añadir `AGENTS.md` con el contexto del proyecto
+
+## 7. Revisión final
 
 * [ ] Comprobar que el código original sigue funcionando
 * [ ] Revisar enlaces y documentación
