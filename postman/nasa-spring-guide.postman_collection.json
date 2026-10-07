@@ -6,29 +6,46 @@
   },
   "item": [
     {
-      "name": "TechTransfer: patentes de aviones",
+      "name": "ejemplo-rest: saludo (local)",
       "request": {
         "method": "GET",
-        "description": "Busca patentes que contengan «aircraft». El término va como parámetro sin valor.",
+        "description": "Arranca apps/ejemplo-rest antes de enviar. No llama a NASA: es la API más simple para empezar.",
         "url": {
-          "raw": "{{BASE_URL}}/techtransfer/patent/?aircraft&api_key={{NASA_API_KEY}}",
+          "raw": "{{LOCAL_URL}}/api/saludo?nombre=Ada",
           "host": [
-            "{{BASE_URL}}"
+            "{{LOCAL_URL}}"
           ],
           "path": [
-            "techtransfer",
-            "patent"
+            "api",
+            "saludo"
           ],
           "query": [
             {
-              "key": "aircraft",
-              "value": ""
-            },
-            {
-              "key": "api_key",
-              "value": "{{NASA_API_KEY}}"
+              "key": "nombre",
+              "value": "Ada"
             }
           ]
+        }
+      }
+    },
+    {
+      "name": "TechTransfer: patentes de aviones",
+      "request": {
+        "method": "GET",
+        "description": "Busca patentes que contengan «aircraft». El término va al final de la ruta. No necesita clave.",
+        "url": {
+          "raw": "https://technology.nasa.gov/api/api/patent/aircraft",
+          "host": [
+            "technology.nasa.gov"
+          ],
+          "path": [
+            "api",
+            "api",
+            "patent",
+            "aircraft"
+          ],
+          "query": [],
+          "protocol": "https"
         }
       }
     },
@@ -36,7 +53,7 @@
       "name": "NeoWs: asteroides de una semana",
       "request": {
         "method": "GET",
-        "description": "Máximo siete días de rango.",
+        "description": "Máximo siete días de rango. Necesita NASA_API_KEY.",
         "url": {
           "raw": "{{BASE_URL}}/neo/rest/v1/feed?start_date=2026-09-26&end_date=2026-10-02&api_key={{NASA_API_KEY}}",
           "host": [
@@ -69,14 +86,15 @@
       "name": "DONKI: fulguraciones solares",
       "request": {
         "method": "GET",
-        "description": "Aquí las fechas van en camelCase.",
+        "description": "Aquí las fechas van en camelCase. No necesita clave.",
         "url": {
-          "raw": "{{BASE_URL}}/DONKI/FLR?startDate=2026-09-26&endDate=2026-10-02&api_key={{NASA_API_KEY}}",
+          "raw": "https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR?startDate=2026-09-26&endDate=2026-10-02",
           "host": [
-            "{{BASE_URL}}"
+            "ccmc.gsfc.nasa.gov"
           ],
           "path": [
-            "DONKI",
+            "DONKI-API",
+            "get",
             "FLR"
           ],
           "query": [
@@ -87,12 +105,9 @@
             {
               "key": "endDate",
               "value": "2026-10-02"
-            },
-            {
-              "key": "api_key",
-              "value": "{{NASA_API_KEY}}"
             }
-          ]
+          ],
+          "protocol": "https"
         }
       }
     },
@@ -100,24 +115,18 @@
       "name": "EPIC: últimas imágenes",
       "request": {
         "method": "GET",
-        "description": "Metadatos de las imágenes más recientes de la Tierra.",
+        "description": "Metadatos de las imágenes más recientes de la Tierra. No necesita clave.",
         "url": {
-          "raw": "{{BASE_URL}}/EPIC/api/natural/images?api_key={{NASA_API_KEY}}",
+          "raw": "https://epic.gsfc.nasa.gov/api/natural",
           "host": [
-            "{{BASE_URL}}"
+            "epic.gsfc.nasa.gov"
           ],
           "path": [
-            "EPIC",
             "api",
-            "natural",
-            "images"
+            "natural"
           ],
-          "query": [
-            {
-              "key": "api_key",
-              "value": "{{NASA_API_KEY}}"
-            }
-          ]
+          "query": [],
+          "protocol": "https"
         }
       }
     },
@@ -125,25 +134,20 @@
       "name": "EPIC: imágenes de una fecha",
       "request": {
         "method": "GET",
-        "description": "Metadatos de las imágenes de un día.",
+        "description": "Metadatos de las imágenes de un día. No necesita clave.",
         "url": {
-          "raw": "{{BASE_URL}}/EPIC/api/natural/date/2026-10-01?api_key={{NASA_API_KEY}}",
+          "raw": "https://epic.gsfc.nasa.gov/api/natural/date/2026-10-01",
           "host": [
-            "{{BASE_URL}}"
+            "epic.gsfc.nasa.gov"
           ],
           "path": [
-            "EPIC",
             "api",
             "natural",
             "date",
             "2026-10-01"
           ],
-          "query": [
-            {
-              "key": "api_key",
-              "value": "{{NASA_API_KEY}}"
-            }
-          ]
+          "query": [],
+          "protocol": "https"
         }
       }
     }

@@ -29,7 +29,7 @@ Arranca la aplicación desde esa carpeta:
 
 La aplicación queda disponible en `http://localhost:8080`.
 
-Las cuatro demostraciones hacen peticiones a rutas bajo `https://api.nasa.gov`. Si no defines la clave, se usa `DEMO_KEY`, cuya cuota por IP es reducida y compartida. Para ejecutar los tests:
+Las demostraciones llaman a tres servidores de NASA (`api.nasa.gov`, `ccmc.gsfc.nasa.gov`, `epic.gsfc.nasa.gov`) y a `technology.nasa.gov`. Solo NeoWs usa clave. Si no la defines, se usa `DEMO_KEY`, cuya cuota por IP es reducida y compartida. Para ejecutar los tests:
 
 ```powershell
 .\mvnw.cmd clean test
@@ -41,8 +41,8 @@ Las cuatro demostraciones hacen peticiones a rutas bajo `https://api.nasa.gov`. 
 |---|---|---|
 | `/techtransfer` | TechTransfer | Buscar patentes NASA con el término de búsqueda del endpoint `/techtransfer/patent/` y examinar su respuesta JSON real. |
 | `/asteroids` | NeoWs | Filtrar por fechas, validar el intervalo máximo de siete días y recorrer JSON agrupado por fecha. Requiere `NASA_API_KEY`. |
-| `/donki` | DONKI FLR | Consultar fulguraciones solares en un intervalo y leer una colección JSON de eventos. Requiere `NASA_API_KEY`. |
-| `/epic` | EPIC Natural | Consultar metadatos de las últimas imágenes de la Tierra o de una fecha concreta. Requiere `NASA_API_KEY`. |
+| `/donki` | DONKI FLR | Consultar fulguraciones solares en un intervalo y leer una colección JSON de eventos. No necesita clave. |
+| `/epic` | EPIC Natural | Consultar metadatos de las últimas imágenes de la Tierra o de una fecha concreta. No necesita clave. |
 
 APOD se explica como servicio relacionado en [`docs/apis.md`](../../docs/apis.md), pero no se usa como demo porque NASA está migrando su ruta y la nueva versión reside en otro host.
 

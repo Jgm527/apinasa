@@ -39,7 +39,7 @@ Java 25, Spring Boot 4, Thymeleaf, Maven. La landing usa Vite, Vue 3 y elastic-u
 
 ## Ejecutar
 
-Necesitas Java 25. Pide una clave gratuita en [api.nasa.gov](https://api.nasa.gov/); sin ella se usa `DEMO_KEY`, con una cuota muy baja.
+Necesitas Java 25. Solo la página de asteroides pide clave: consíguela gratis en [api.nasa.gov](https://api.nasa.gov/); sin ella se usa `DEMO_KEY`, con una cuota muy baja.
 
 ```bash
 cd apps/apinasa

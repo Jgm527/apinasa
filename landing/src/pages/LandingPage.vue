@@ -68,7 +68,7 @@ const apis = [
     </section>
 
     <section id="apis" class="scroll-mt-20 py-16">
-      <h2 class="mb-8 text-2xl font-semibold tracking-tight text-fg">Cuatro APIs, una sola clave</h2>
+      <h2 class="mb-8 text-2xl font-semibold tracking-tight text-fg">Cuatro APIs de NASA</h2>
       <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
         <Card v-for="api in apis" :key="api.name" size="sm">
           <CardHeader>

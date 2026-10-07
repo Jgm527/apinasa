@@ -1,27 +1,27 @@
 # APIs de NASA con Java y Spring Boot
 
-**Revisada el 2 de octubre de 2026.** Esta guía se centra en el catálogo de [api.nasa.gov](https://api.nasa.gov/) y acompaña a la aplicación `apps/apinasa`. Las peticiones externas que hace el proyecto se dirigen exclusivamente a `https://api.nasa.gov`.
+**Revisada el 7 de octubre de 2026.** Esta guía acompaña a la aplicación `apps/apinasa`. Las cuatro APIs son públicas, pero ya no viven todas en el mismo sitio: solo NeoWs sigue en `api.nasa.gov` y necesita clave.
 
 ## Alcance del proyecto
 
-`api.nasa.gov` es el portal central de NASA para publicar un catálogo de APIs y ofrecer acceso común mediante claves y límites. Algunos servicios son pasarelas a sistemas de distintos centros, pero la aplicación cliente se conecta al host central. La app no llama a otros hosts de API.
+`api.nasa.gov` es el portal de NASA que reparte claves y publica un catálogo de APIs. Con el tiempo, varios servicios se han mudado a los sitios de sus propios centros y el portal redirige a ellos. Por eso la app llama a cuatro hosts distintos. Si una ruta deja de responder, mira primero si NASA la ha movido.
 
 Las cuatro demos de la web son:
 
 | Ruta local | API | Ruta externa | Qué practicar |
 |---|---|---|---|
-| `/techtransfer` | TechTransfer | `/techtransfer/patent/` | Buscar patentes y explorar una respuesta JSON de estructura flexible |
-| `/asteroids` | Asteroids NeoWs | `/neo/rest/v1/feed` | Query parameters, rango de fechas y JSON agrupado por fecha |
-| `/donki` | DONKI, producto FLR | `/DONKI/FLR` | Colecciones JSON, parámetros camelCase y datos científicos opcionales |
-| `/epic` | EPIC Natural | `/EPIC/api/natural/images` o `/EPIC/api/natural/date/{fecha}` | Consultar metadatos de imágenes recientes o de una fecha |
+| `/techtransfer` | TechTransfer | `technology.nasa.gov/api/api/patent/{término}` | Buscar patentes y explorar una respuesta JSON de estructura flexible |
+| `/asteroids` | Asteroids NeoWs | `api.nasa.gov/neo/rest/v1/feed` | Query parameters, rango de fechas y JSON agrupado por fecha |
+| `/donki` | DONKI, producto FLR | `ccmc.gsfc.nasa.gov/DONKI-API/get/FLR` | Colecciones JSON, parámetros camelCase y datos científicos opcionales |
+| `/epic` | EPIC Natural | `epic.gsfc.nasa.gov/api/natural` o `/api/natural/date/{fecha}` | Consultar metadatos de imágenes recientes o de una fecha |
 
-En todos los casos el host externo es `api.nasa.gov`. El código del navegador solicita una ruta local; los servicios Spring ejecutan la llamada de NASA en el backend. Las páginas muestran la URL realmente enviada, el estado, `Content-Type` y el cuerpo JSON de esa respuesta. La clave se redacta tanto en la URL como si la propia respuesta la repite en alguno de sus enlaces.
+El código del navegador solicita una ruta local; los servicios Spring ejecutan la llamada de NASA en el backend. Las páginas muestran la URL realmente enviada, el estado, `Content-Type` y el cuerpo JSON de esa respuesta. En NeoWs, que es la única que usa clave, esta se oculta tanto en la URL como si la propia respuesta la repite en alguno de sus enlaces.
 
 ## Cómo se obtiene acceso
 
-Se puede pedir una clave personal gratuita en el [portal de NASA APIs](https://api.nasa.gov/). La aplicación la lee de `NASA_API_KEY`; en local puede definirse en un `.env` ignorado por Git, o en una variable de entorno del sistema.
+Solo NeoWs pide clave. TechTransfer, DONKI y EPIC responden sin ella. Puedes pedir una clave personal gratuita en el [portal de NASA APIs](https://api.nasa.gov/). La aplicación la lee de `NASA_API_KEY`; en local puede definirse en un `.env` ignorado por Git, o en una variable de entorno del sistema.
 
-- Límite general publicado para una clave personal: **1.000 peticiones por hora**, compartidas entre los servicios que pasan por `api.nasa.gov`.
+- Límite general publicado para una clave personal: **1.000 peticiones por hora**, en `api.nasa.gov`.
 - `DEMO_KEY`: **30 peticiones por hora y 50 al día por IP**. Es solo para pruebas ligeras.
 - Algunas respuestas contienen las cabeceras `X-RateLimit-Limit` y `X-RateLimit-Remaining`.
 - `429 Too Many Requests` indica una limitación de cuota, no necesariamente un error de código o una ruta mal escrita.
@@ -50,10 +50,10 @@ El backend valida primero los parámetros locales; después el servicio construy
 TechTransfer ofrece búsquedas de patentes, software y resultados de transferencia tecnológica. La aplicación demuestra la búsqueda de patentes por una palabra:
 
 ```text
-GET https://api.nasa.gov/techtransfer/patent/?aircraft&api_key=...
+GET https://technology.nasa.gov/api/api/patent/aircraft
 ```
 
-El término de búsqueda se representa como un parámetro sin valor, siguiendo el ejemplo publicado en la ficha del catálogo. Hay rutas separadas para patentes, software y spinoffs. Las respuestas contienen JSON propio del catálogo, con resultados y metadatos. Como su estructura depende del producto, la demo muestra el cuerpo real y lo mantiene flexible en vez de inventar un DTO para campos que no utiliza.
+El término de búsqueda va al final de la ruta. Hay rutas separadas para patentes, software y spinoffs. Las respuestas contienen JSON propio del catálogo, con resultados y metadatos. Como su estructura depende del producto, la demo muestra el cuerpo real y lo mantiene flexible en vez de inventar un DTO para campos que no utiliza.
 
 La página local `/techtransfer` valida que el texto no esté vacío y limita su longitud antes de consultar.
 
@@ -113,7 +113,7 @@ Radar de asteroides: recuento por día, peligrosos y gráfico de distancia frent
 DONKI contiene distintos productos de meteorología espacial. La app consulta **FLR** (Solar Flares):
 
 ```text
-GET https://api.nasa.gov/DONKI/FLR?startDate=2026-09-26&endDate=2026-10-02&api_key=...
+GET https://ccmc.gsfc.nasa.gov/DONKI-API/get/FLR?startDate=2026-09-26&endDate=2026-10-02
 ```
 
 En este producto los parámetros de fecha se escriben en camelCase: `startDate` y `endDate`. El resultado es una lista de eventos. Un registro puede contener campos como:
@@ -150,13 +150,13 @@ Línea de tiempo de fulguraciones con hora de pico, clase y región activa. El e
 EPIC proporciona metadatos de imágenes de disco completo de la Tierra captadas por DSCOVR. Para obtener las entradas más recientes:
 
 ```text
-GET https://api.nasa.gov/EPIC/api/natural/images?api_key=...
+GET https://epic.gsfc.nasa.gov/api/natural
 ```
 
 Para una fecha concreta, la fecha forma parte de la ruta:
 
 ```text
-GET https://api.nasa.gov/EPIC/api/natural/date/2026-10-01?api_key=...
+GET https://epic.gsfc.nasa.gov/api/natural/date/2026-10-01
 ```
 
 El cuerpo es una lista JSON. Un objeto incluye datos como:
@@ -174,7 +174,7 @@ El cuerpo es una lista JSON. Un objeto incluye datos como:
 ]
 ```
 
-La pantalla enseña esos metadatos y el intercambio JSON. El nombre del archivo (`image`) identifica el recurso asociado; esta demo se centra en la respuesta de metadatos y mantiene la petición bajo `api.nasa.gov`.
+La pantalla enseña esos metadatos y el intercambio JSON. El nombre del archivo (`image`) identifica el recurso asociado; esta demo se centra en la respuesta de metadatos.
 
 ### Qué puedes hacer con EPIC
 
@@ -211,7 +211,7 @@ En esta aplicación `NasaHttpSupport` amplía ese patrón: lee y conserva el cue
 
 1. El navegador envía un `GET` a una ruta local, por ejemplo `/asteroids`.
 2. El controlador comprueba fechas, rangos y búsquedas antes de consumir cuota.
-3. El servicio Java construye una URI que empieza por `https://api.nasa.gov`.
+3. El servicio Java construye la URI del servicio de NASA que toca.
 4. `RestClient` solicita la respuesta; `NasaHttpSupport` guarda el intercambio y convierte el JSON.
 5. El controlador añade el resultado y los datos HTTP al `Model`.
 6. Thymeleaf presenta los datos funcionales y permite inspeccionar el cuerpo real recibido.
@@ -234,8 +234,8 @@ APOD también está en transición: el catálogo ha anunciado la retirada del en
 ## Fuentes
 
 - [Portal api.nasa.gov: catálogo, claves y límites](https://api.nasa.gov/)
-- [TechTransfer](https://api.nasa.gov/#techtransfer)
+- [TechTransfer](https://technology.nasa.gov/api/)
 - [Asteroids NeoWs](https://api.nasa.gov/#neo_ws)
-- [DONKI](https://api.nasa.gov/#donki)
-- [EPIC](https://api.nasa.gov/#epic)
+- [DONKI y el aviso de cambio de URLs](https://ccmc.gsfc.nasa.gov/news/major-updates)
+- [EPIC](https://epic.gsfc.nasa.gov/)
 - [README de la aplicación](../apps/apinasa/README.md)

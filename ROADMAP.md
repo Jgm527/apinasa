@@ -75,6 +75,7 @@
 
 ## 7. Revisión final
 
+* [x] Migrar `apinasa` y la documentación a las URLs actuales de NASA (TechTransfer, DONKI y EPIC cambiaron de servidor)
 * [ ] Comprobar que el código original sigue funcionando
 * [ ] Revisar enlaces y documentación
 * [x] Comprobar que no hay API keys expuestas

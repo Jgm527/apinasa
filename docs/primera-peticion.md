@@ -1,28 +1,28 @@
 # Tu primera petición
 
-Para usar una API de NASA hace falta una URL, una clave y saber leer lo que devuelve. En esta página haces una petición real de principio a fin.
+Para usar una API de NASA hace falta una URL y saber leer lo que devuelve. Algunas, además, piden una clave. En esta página haces una petición real de principio a fin.
 
-## 1. Pide tu clave
+## 1. La clave, si la API la pide
 
-Entra en [api.nasa.gov](https://api.nasa.gov/), rellena el formulario con tu nombre y tu correo y recibirás una clave personal. Es gratis y llega al momento.
+EPIC, la API de este ejemplo, no necesita clave. NeoWs sí, igual que otras APIs del portal. Entra en [api.nasa.gov](https://api.nasa.gov/), rellena el formulario con tu nombre y tu correo y recibirás una clave personal. Es gratis y llega al momento.
 
-Mientras no la tengas puedes usar `DEMO_KEY`. Sirve para probar, pero solo permite 30 peticiones por hora y 50 al día por IP, y se agota rápido si varias personas comparten la misma conexión.
+Mientras no la tengas puedes usar `DEMO_KEY` en las APIs que la piden. Sirve para probar, pero solo permite 30 peticiones por hora y 50 al día por IP, y se agota rápido si varias personas comparten la misma conexión.
 
 ## 2. Lanza una petición
 
 Con EPIC, que devuelve imágenes de la Tierra tomadas desde el espacio, la petición es una sola línea:
 
 ```bash
-curl "https://api.nasa.gov/EPIC/api/natural/images?api_key=DEMO_KEY"
+curl "https://epic.gsfc.nasa.gov/api/natural"
 ```
 
 Cada parte de la URL tiene su papel:
 
 | Parte | Ejemplo | Qué es |
 |---|---|---|
-| Host | `api.nasa.gov` | El servidor al que llamas. Todas las APIs de este proyecto usan el mismo. |
-| Ruta | `/EPIC/api/natural/images` | Qué recurso pides. |
-| Parámetros | `?api_key=DEMO_KEY` | Datos extra que van tras la `?`. Aquí, tu clave. Se separan con `&`. |
+| Host | `epic.gsfc.nasa.gov` | El servidor al que llamas. Cada API puede vivir en el suyo. |
+| Ruta | `/api/natural` | Qué recurso pides. |
+| Parámetros | `?api_key=DEMO_KEY` | Datos extra que van tras la `?`. Esta petición no lleva ninguno; en NeoWs, por ejemplo, va tu clave. Se separan con `&`. |
 
 ## 3. Lee la respuesta
 

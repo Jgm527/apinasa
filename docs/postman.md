@@ -23,7 +23,7 @@ Un cliente HTTP con interfaz gráfica. En lugar de escribir `curl` o código, re
 3. Pulsa **Send**.
 
 ```text
-GET https://api.nasa.gov/EPIC/api/natural/images?api_key=DEMO_KEY
+GET https://epic.gsfc.nasa.gov/api/natural
 ```
 
 La respuesta aparece separada en pestañas: **Body** (el JSON), **Headers** (las cabeceras) y el código de estado (`200`, `4xx`, `429`...). El cuerpo se formatea y colorea automáticamente.
@@ -33,17 +33,17 @@ La respuesta aparece separada en pestañas: **Body** (el JSON), **Headers** (las
 
 ## 4. La clave en una variable
 
-Escribir la clave en cada petición es incómodo y fácil de copiar mal. Crea un entorno (Environment) con una variable `NASA_API_KEY` y úsala en la URL:
+Solo algunas APIs piden clave, como NeoWs. Escribirla en cada petición es incómodo y fácil de copiar mal. Crea un entorno (Environment) con una variable `NASA_API_KEY` y úsala en la URL:
 
 ```text
-GET https://api.nasa.gov/EPIC/api/natural/images?api_key={{NASA_API_KEY}}
+GET https://api.nasa.gov/neo/rest/v1/feed?start_date=2026-09-26&end_date=2026-10-02&api_key={{NASA_API_KEY}}
 ```
 
 Postman sustituye `{{NASA_API_KEY}}` por el valor del entorno al enviar, así la clave real no aparece en la petición guardada. No compartas colecciones ni entornos que contengan tu clave personal: trátala como el `.env` local.
 
 ## 5. Importar la colección del proyecto
 
-En la carpeta [`postman/`](https://github.com/Jgm527/apinasa/tree/main/postman) hay una colección con una petición por API (TechTransfer, NeoWs, DONKI y EPIC) y un entorno con las variables.
+En la carpeta [`postman/`](https://github.com/Jgm527/apinasa/tree/main/postman) hay una colección con una petición por API (TechTransfer, NeoWs, DONKI y EPIC) y una a `ejemplo-rest` y un entorno con las variables.
 
 1. En Postman, pulsa **Import** y arrastra los dos archivos de la carpeta.
 2. Elige el entorno **NASA** arriba a la derecha.

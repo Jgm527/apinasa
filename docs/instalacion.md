@@ -10,7 +10,7 @@ No hace falta instalar Maven: cada proyecto trae su `mvnw`.
 
 ## Clave de NASA
 
-Pide una clave gratuita en [api.nasa.gov](https://api.nasa.gov/). Sin clave se usa `DEMO_KEY`, que permite 30 peticiones por hora y 50 al día por IP. Basta para probar, pero se agota rápido.
+Solo NeoWs (asteroides) necesita clave; TechTransfer, DONKI y EPIC funcionan sin ella. Pide una clave gratuita en [api.nasa.gov](https://api.nasa.gov/). Sin clave se usa `DEMO_KEY`, que permite 30 peticiones por hora y 50 al día por IP. Basta para probar, pero se agota rápido.
 
 La clave se lee de la variable de entorno `NASA_API_KEY`. En `apps/apinasa` también puedes ponerla en un `.env` local:
 

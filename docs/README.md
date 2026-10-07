@@ -1,6 +1,6 @@
 # Documentación
 
-NASA Spring Guide es un proyecto para aprender Spring Boot llamando a APIs reales. Hay una aplicación completa y dos ejemplos pequeños que aíslan una idea cada uno. Todo lo que se consulta vive bajo `https://api.nasa.gov`.
+NASA Spring Guide es un proyecto para aprender Spring Boot llamando a APIs reales. Hay una aplicación completa y dos ejemplos pequeños que aíslan una idea cada uno. Las APIs que se consultan son públicas y viven en distintos servidores de NASA; solo una pide clave.
 
 ## Por dónde empezar
 

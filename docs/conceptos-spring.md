@@ -22,7 +22,7 @@ Los que aparecen en el código del repositorio.
 
 1. El navegador hace `GET /asteroids?...`.
 2. El controlador valida fechas y rangos antes de gastar cuota.
-3. El servicio construye la URL a `api.nasa.gov` y llama con `RestClient`.
+3. El servicio construye la URL del servicio de NASA que toca y llama con `RestClient`.
 4. `NasaHttpSupport` guarda el cuerpo bruto, el estado y el `Content-Type`, y convierte el JSON a un DTO.
 5. El controlador añade el resultado al `Model` y devuelve la plantilla.
 6. Thymeleaf genera el HTML.
