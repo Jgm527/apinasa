@@ -28,8 +28,7 @@ GET https://api.nasa.gov/EPIC/api/natural/images?api_key=DEMO_KEY
 
 La respuesta aparece separada en pestañas: **Body** (el JSON), **Headers** (las cabeceras) y el código de estado (`200`, `4xx`, `429`...). El cuerpo se formatea y colorea automáticamente.
 
-> [!TIP]
-> Prueba NeoWs con un rango de fechas para ver cómo van los query parameters:
+> Prueba NeoWs con un rango de hasta siete días y ajusta las fechas a un periodo válido:
 > `GET https://api.nasa.gov/neo/rest/v1/feed?start_date=2026-09-26&end_date=2026-10-02&api_key=DEMO_KEY`
 
 ## 4. La clave en una variable

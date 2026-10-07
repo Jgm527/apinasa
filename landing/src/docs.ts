@@ -1,5 +1,5 @@
 import type { Component } from 'vue'
-import { BookOpen, Boxes, Download, Globe, Rocket, Telescope } from '@lucide/vue'
+import { BookOpen, Boxes, Download, Globe, Rocket, Send, Telescope } from '@lucide/vue'
 
 // The docs are the repository's Markdown, read as they are written in docs/.
 const files = import.meta.glob('../../docs/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
@@ -19,6 +19,7 @@ export interface DocPage {
 const ORDER: { file: string; slug: string; title: string; description: string; icon: Component }[] = [
   { file: 'README', slug: 'index', title: 'Introducción', description: 'Qué hay en el proyecto y por dónde empezar.', icon: BookOpen },
   { file: 'primera-peticion', slug: 'primera-peticion', title: 'Tu primera petición', description: 'Una petición real a la API, de principio a fin.', icon: Rocket },
+  { file: 'postman', slug: 'postman', title: 'Probar con Postman', description: 'Explora las APIs de NASA con peticiones HTTP visuales.', icon: Send },
   { file: 'instalacion', slug: 'instalacion', title: 'Instalación', description: 'Requisitos, clave de NASA y cómo arrancar.', icon: Download },
   { file: 'apis', slug: 'apis', title: 'Las APIs de NASA', description: 'Qué devuelve cada servicio, con ejemplos.', icon: Telescope },
   { file: 'ejemplos', slug: 'ejemplos', title: 'Ejemplos mínimos', description: 'El @Controller y el @RestController, reducidos al mínimo.', icon: Boxes },

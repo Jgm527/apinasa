@@ -5,11 +5,12 @@ NASA Spring Guide es un proyecto para aprender Spring Boot llamando a APIs reale
 ## Por dónde empezar
 
 1. [Tu primera petición](primera-peticion.md): una petición real de principio a fin, con glosario.
-2. [Instalación y ejecución](instalacion.md): requisitos, clave de NASA y comandos.
-3. [Ejemplos mínimos](ejemplos.md): `ejemplo-mvc` y `ejemplo-rest`, el camino corto para entender los controladores.
-4. [Conceptos de Spring Boot](conceptos-spring.md): los términos que salen en el código.
-5. [Las APIs de NASA](apis.md): qué devuelve cada servicio, con peticiones y respuestas de ejemplo.
-6. [`apps/apinasa`](../apps/apinasa/README.md): la aplicación completa, con validación, errores y tests.
+2. [Probar con Postman](postman.md): explora las APIs con peticiones HTTP desde una interfaz gráfica.
+3. [Instalación y ejecución](instalacion.md): requisitos, clave de NASA y comandos.
+4. [Ejemplos mínimos](ejemplos.md): `ejemplo-mvc` y `ejemplo-rest`, el camino corto para entender los controladores.
+5. [Conceptos de Spring Boot](conceptos-spring.md): los términos que salen en el código.
+6. [Las APIs de NASA](apis.md): qué devuelve cada servicio, con peticiones y respuestas de ejemplo.
+7. [`apps/apinasa`](../apps/apinasa/README.md): la aplicación completa, con validación, errores y tests.
 
 ## Mapa del repositorio
 
