@@ -61,9 +61,9 @@
 
   * [x] Probar las APIs de NASA con colecciones sencillas
   * [x] Hacer ejemplos sencillos y documentarlos
-  * [ ] Explorar los scripts de Postman (pre-request y tests) con ejemplos sencillos
-    * [ ] Comprobar el código de estado y el contenido de la respuesta con `pm.test`
-    * [ ] Guardar datos de una respuesta en variables para la siguiente petición
+  * [ ] Explorar los scripts de Postman y el Visualizer
+    * [ ] Escribir una plantilla HTML en la pestaña Scripts y mostrar la respuesta con `pm.visualizer.set`
+    * [ ] Hacer un ejemplo sencillo, por ejemplo una tabla con las patentes de TechTransfer
     * [ ] Documentarlo en `docs/postman.md`
 * [ ] Investigar GraphQL
 
