@@ -65,6 +65,8 @@
 
   * [ ] Hacer ejemplos sencillos con Spring Boot
   * [ ] Comparar con REST de forma breve
+  * [ ] Ver qué pasa cuando la API cambia (campos nuevos, renombrados o eliminados) y qué hacer en el programa para que no se rompa
+  * [ ] Probar si GraphQL aguanta mejor esos cambios que REST (pides solo los campos que usas, `@deprecated`) y explicarlo sencillo
 * [ ] Hacer presentaciones
 
   * [ ] Presentación del proyecto
