@@ -1,0 +1,151 @@
+{
+  "info": {
+    "name": "NASA Spring Guide",
+    "description": "Peticiones de ejemplo a las APIs de NASA que usa el proyecto. Usa el entorno «NASA» y rellena NASA_API_KEY.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "TechTransfer: patentes de aviones",
+      "request": {
+        "method": "GET",
+        "description": "Busca patentes que contengan «aircraft». El término va como parámetro sin valor.",
+        "url": {
+          "raw": "{{BASE_URL}}/techtransfer/patent/?aircraft&api_key={{NASA_API_KEY}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "techtransfer",
+            "patent"
+          ],
+          "query": [
+            {
+              "key": "aircraft",
+              "value": ""
+            },
+            {
+              "key": "api_key",
+              "value": "{{NASA_API_KEY}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "NeoWs: asteroides de una semana",
+      "request": {
+        "method": "GET",
+        "description": "Máximo siete días de rango.",
+        "url": {
+          "raw": "{{BASE_URL}}/neo/rest/v1/feed?start_date=2026-09-26&end_date=2026-10-02&api_key={{NASA_API_KEY}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "neo",
+            "rest",
+            "v1",
+            "feed"
+          ],
+          "query": [
+            {
+              "key": "start_date",
+              "value": "2026-09-26"
+            },
+            {
+              "key": "end_date",
+              "value": "2026-10-02"
+            },
+            {
+              "key": "api_key",
+              "value": "{{NASA_API_KEY}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "DONKI: fulguraciones solares",
+      "request": {
+        "method": "GET",
+        "description": "Aquí las fechas van en camelCase.",
+        "url": {
+          "raw": "{{BASE_URL}}/DONKI/FLR?startDate=2026-09-26&endDate=2026-10-02&api_key={{NASA_API_KEY}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "DONKI",
+            "FLR"
+          ],
+          "query": [
+            {
+              "key": "startDate",
+              "value": "2026-09-26"
+            },
+            {
+              "key": "endDate",
+              "value": "2026-10-02"
+            },
+            {
+              "key": "api_key",
+              "value": "{{NASA_API_KEY}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "EPIC: últimas imágenes",
+      "request": {
+        "method": "GET",
+        "description": "Metadatos de las imágenes más recientes de la Tierra.",
+        "url": {
+          "raw": "{{BASE_URL}}/EPIC/api/natural/images?api_key={{NASA_API_KEY}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "EPIC",
+            "api",
+            "natural",
+            "images"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{NASA_API_KEY}}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "EPIC: imágenes de una fecha",
+      "request": {
+        "method": "GET",
+        "description": "Metadatos de las imágenes de un día.",
+        "url": {
+          "raw": "{{BASE_URL}}/EPIC/api/natural/date/2026-10-01?api_key={{NASA_API_KEY}}",
+          "host": [
+            "{{BASE_URL}}"
+          ],
+          "path": [
+            "EPIC",
+            "api",
+            "natural",
+            "date",
+            "2026-10-01"
+          ],
+          "query": [
+            {
+              "key": "api_key",
+              "value": "{{NASA_API_KEY}}"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

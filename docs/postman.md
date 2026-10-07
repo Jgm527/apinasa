@@ -41,7 +41,17 @@ GET https://api.nasa.gov/EPIC/api/natural/images?api_key={{NASA_API_KEY}}
 
 Postman sustituye `{{NASA_API_KEY}}` por el valor del entorno al enviar, así la clave real no aparece en la petición guardada. No compartas colecciones ni entornos que contengan tu clave personal: trátala como el `.env` local.
 
-## 5. Postman y la aplicación
+## 5. Importar la colección del proyecto
+
+En la carpeta [`postman/`](https://github.com/Jgm527/apinasa/tree/main/postman) hay una colección con una petición por API (TechTransfer, NeoWs, DONKI y EPIC) y un entorno con las variables.
+
+1. En Postman, pulsa **Import** y arrastra los dos archivos de la carpeta.
+2. Elige el entorno **NASA** arriba a la derecha.
+3. Abre una petición y pulsa **Send**.
+
+El entorno trae `DEMO_KEY`, que sirve para probar pero tiene límites estrictos. Para usar tu clave, cámbiala en tu copia local y no exportes ni subas ese entorno.
+
+## 6. Postman y la aplicación
 
 Postman no se conecta con `apps/apinasa`: la aplicación llama a NASA desde Java con `RestClient`. Postman ayuda a entender qué responde NASA para utilizar esa respuesta en el código. Para probar la propia aplicación, usa el navegador en <http://localhost:8080>.
 

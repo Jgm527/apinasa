@@ -57,10 +57,10 @@
 
 ## 6. Siguientes pasos
 
-* [ ] Investigar Postman
+* [x] Investigar Postman
 
-  * [ ] Probar las APIs de NASA con colecciones sencillas
-  * [ ] Hacer ejemplos sencillos y documentarlos
+  * [x] Probar las APIs de NASA con colecciones sencillas
+  * [x] Hacer ejemplos sencillos y documentarlos
 * [ ] Investigar GraphQL
 
   * [ ] Hacer ejemplos sencillos con Spring Boot
