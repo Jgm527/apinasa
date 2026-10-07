@@ -128,7 +128,27 @@
           "query": [],
           "protocol": "https"
         }
-      }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const plantilla = `",
+              "  <style>th, td { padding: 4px 16px; text-align: left; }</style>",
+              "  <table>",
+              "    <tr><th>Imagen</th><th>Fecha</th></tr>",
+              "    {{#each imagenes}}",
+              "      <tr><td>{{identifier}}</td><td>{{date}}</td></tr>",
+              "    {{/each}}",
+              "  </table>`;",
+              "",
+              "pm.visualizer.set(plantilla, { imagenes: pm.response.json() });"
+            ]
+          }
+        }
+      ]
     },
     {
       "name": "EPIC: imágenes de una fecha",
